@@ -30,10 +30,16 @@ The Codepic CLI relies on a declarative manifest (`module.manifest.json`) to des
 | Field       | Type             | Description                                                                                                                                               |
 | ----------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `$schema`   | string           | Optional reference to the published JSON schema (`https://raw.githubusercontent.com/codepic/Codepic.Cli/main/schema/cli/module-manifest/v1/schema.json`). |
+| `install`   | object           | Optional onboarding guidance surfaced by tooling. Recognized properties live under `install.instructions`.                                               |
 | `exclude`   | array of strings | Repository-relative paths to omit after `include` resolution. Useful when a directory contains generated or local-only files.                             |
 | `source`    | object           | Metadata describing the canonical origin of the module. Recognized properties:                                                                            |
 | `git`       | string           | Repository URL used by `clone-module`/`update-module` when a caller does not provide `-Git`.                                                              |
 | `tagPrefix` | string           | Optional prefix (defaults to `v`). The tooling concatenates this value with the requested `-Version` when checking out tags.                              |
+
+### `install.instructions`
+
+- `human` — Freeform text shown to operators performing the installation manually.
+- `copilot` — Guidance for automated assistants that may execute installation steps on the user’s behalf.
 
 ## Path Semantics
 

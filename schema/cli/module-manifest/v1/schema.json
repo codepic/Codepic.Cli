@@ -30,6 +30,32 @@
       "minLength": 3,
       "examples": ["Baseline tasks for Codepic CLI."]
     },
+    "install": {
+      "type": "object",
+      "description": "Optional onboarding guidance surfaced by consumers during installation flows.",
+      "additionalProperties": false,
+      "required": ["instructions"],
+      "properties": {
+        "instructions": {
+          "type": "object",
+          "description": "Instructional content tailored for humans and assisted agents during installation.",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "human": {
+              "type": "string",
+              "description": "Plain-language instructions for operators installing the module.",
+              "minLength": 1
+            },
+            "copilot": {
+              "type": "string",
+              "description": "Guidance for automated assistants that may execute the installation.",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
     "include": {
       "type": "array",
       "description": "Set of repository-relative paths to package with the module. Paths must include the manifest itself.",
