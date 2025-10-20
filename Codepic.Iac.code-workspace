@@ -1,0 +1,31 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "PowerShell Interactive Session",
+        "type": "PowerShell",
+        "request": "launch",
+        "cwd": "${cwd}"
+      }
+    ],
+    "compounds": []
+  },
+  "settings": {
+    "editor.formatOnSave": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+      "*.tasks.ps1": "*.tasks.functions.ps1"
+    }
+  },
+  "extensions": {
+    "recommendations": ["ms-vscode.PowerShell"]
+  }
+}
