@@ -7,6 +7,11 @@
   "additionalProperties": false,
   "required": ["name", "version", "description", "include"],
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional reference to the published manifest schema. When specified, it must point to this schema version.",
+      "const": "https://raw.githubusercontent.com/codepic/Codepic.Cli/main/schema/cli/module-manifest/v1/schema.json"
+    },
     "name": {
       "type": "string",
       "description": "Lowercase identifier matching the module directory under modules/.",
@@ -48,11 +53,7 @@
         "$ref": "#/$defs/repoPath"
       },
       "uniqueItems": true,
-      "examples": [
-        [
-          "modules/sample/local.settings.json"
-        ]
-      ]
+      "examples": [["modules/sample/local.settings.json"]]
     },
     "source": {
       "type": "object",
@@ -64,18 +65,13 @@
           "type": "string",
           "description": "Repository URL used by clone-module/update-module when -Git is not supplied.",
           "format": "uri",
-          "examples": [
-            "https://github.com/codepic/Codepic.Cli.Sample.git"
-          ]
+          "examples": ["https://github.com/codepic/Codepic.Cli.Sample.git"]
         },
         "tagPrefix": {
           "type": "string",
           "description": "Optional prefix prepended to version numbers when constructing git tags (defaults to 'v').",
           "minLength": 1,
-          "examples": [
-            "v",
-            "release-"
-          ]
+          "examples": ["v", "release-"]
         }
       }
     }
@@ -85,10 +81,7 @@
       "type": "string",
       "description": "Repository-relative path using forward slashes, without leading ../ segments.",
       "pattern": "^(?!\\.{2})(?!/)(?!.*\\.{2}/)[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$",
-      "examples": [
-        "modules/sample/.tasks.ps1",
-        "dist/sample/sample.0.2.0.zip"
-      ]
+      "examples": ["modules/sample/.tasks.ps1", "dist/sample/sample.0.2.0.zip"]
     }
   }
 }

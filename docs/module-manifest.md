@@ -27,12 +27,13 @@ The Codepic CLI relies on a declarative manifest (`module.manifest.json`) to des
 
 ## Optional Fields
 
-| Field       | Type             | Description                                                                                                                   |
-| ----------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `exclude`   | array of strings | Repository-relative paths to omit after `include` resolution. Useful when a directory contains generated or local-only files. |
-| `source`    | object           | Metadata describing the canonical origin of the module. Recognized properties:                                                |
-| `git`       | string           | Repository URL used by `clone-module`/`update-module` when a caller does not provide `-Git`.                                  |
-| `tagPrefix` | string           | Optional prefix (defaults to `v`). The tooling concatenates this value with the requested `-Version` when checking out tags.  |
+| Field       | Type             | Description                                                                                                                                               |
+| ----------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `$schema`   | string           | Optional reference to the published JSON schema (`https://raw.githubusercontent.com/codepic/Codepic.Cli/main/schema/cli/module-manifest/v1/schema.json`). |
+| `exclude`   | array of strings | Repository-relative paths to omit after `include` resolution. Useful when a directory contains generated or local-only files.                             |
+| `source`    | object           | Metadata describing the canonical origin of the module. Recognized properties:                                                                            |
+| `git`       | string           | Repository URL used by `clone-module`/`update-module` when a caller does not provide `-Git`.                                                              |
+| `tagPrefix` | string           | Optional prefix (defaults to `v`). The tooling concatenates this value with the requested `-Version` when checking out tags.                              |
 
 ## Path Semantics
 
