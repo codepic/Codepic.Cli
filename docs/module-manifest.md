@@ -38,8 +38,8 @@ The Codepic CLI relies on a declarative manifest (`module.manifest.json`) to des
 
 ### `install.instructions`
 
-- `human` — Freeform text shown to operators performing the installation manually.
-- `copilot` — Guidance for automated assistants that may execute installation steps on the user’s behalf.
+- `human` — String or ordered array of strings shown to operators performing the installation manually.
+- `copilot` — String or ordered array of strings guiding automated assistants that execute installation steps on the user’s behalf.
 
 ## Path Semantics
 

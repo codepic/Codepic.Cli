@@ -43,14 +43,12 @@
           "minProperties": 1,
           "properties": {
             "human": {
-              "type": "string",
-              "description": "Plain-language instructions for operators installing the module.",
-              "minLength": 1
+              "$ref": "#/$defs/installInstruction",
+              "description": "Plain-language instructions for operators installing the module."
             },
             "copilot": {
-              "type": "string",
-              "description": "Guidance for automated assistants that may execute the installation.",
-              "minLength": 1
+              "$ref": "#/$defs/installInstruction",
+              "description": "Guidance for automated assistants that may execute the installation."
             }
           }
         }
@@ -108,6 +106,23 @@
       "description": "Repository-relative path using forward slashes, without leading ../ segments.",
       "pattern": "^(?!\\.{2})(?!/)(?!.*\\.{2}/)[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$",
       "examples": ["modules/sample/.tasks.ps1", "dist/sample/sample.0.2.0.zip"]
+    },
+    "installInstruction": {
+      "description": "Either a single instruction string or an ordered list of instruction strings.",
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      ]
     }
   }
 }
