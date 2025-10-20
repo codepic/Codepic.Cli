@@ -3,6 +3,12 @@
   "name": ".",
   "version": "0.1.0",
   "description": "Root module manifest for the CLI.",
+  "install": {
+    "instructions": {
+      "human": "To install the Codepic CLI, download the latest release from the GitHub repository and follow the setup instructions in the README.md file.",
+      "copilot": "Get the files defined in 'include' from the 'source.git' into local repository. Ask the user what to do if there are any conflicts with existing files."
+    }
+  },
   "include": [
     ".github/instructions/.build.instructions.md",
     ".github/instructions/.instructions.md",
