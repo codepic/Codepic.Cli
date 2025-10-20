@@ -6,7 +6,19 @@
   "install": {
     "instructions": {
       "human": "To install the Codepic CLI, download the latest release from the GitHub repository and follow the setup instructions in the README.md file.",
-      "copilot": "Get the files defined in 'include' from the 'source.git' into local repository. Ask the user what to do if there are any conflicts with existing files."
+      "copilot": [
+        "1. Download the files defined in the 'include' from https://raw.githubusercontent.com/codepic/Codepic.Cli/refs/heads/main/ and place them in the appropriate directories as specified.",
+        "2. Once downloaded, use PowerShell Get-Alias -command to determine if we already have an alias pointing to the .build.ps1.",
+        "  - If not,  ask the user to choose a good name for the CLI fitting their context. e.g. do not use 'codepic' as it's just a placeholder name. User should use their own alias.",
+        "  - Give suggestions if needed.",
+        "  - The alias will be the name of the command they will run on the terminal. Therefore it should be short (to type) and intuitive (discoverable).",
+        "  - You can use the gated alignment protocol in the .github/instructions/.protocol.alignment.instructions.md if needed.",
+        "3. Once the user has chosen a name, run `./.build.ps1 . init -Alias {alias}` to initialize the CLI.",
+        "4. After initializing, test the CLI functionality by running `{alias} . lint` to ensure it's set up correctly.",
+        "5. Finally, ask the user if they'd like a tutorial?",
+        "  - If they choose yes, introduce the user to the CLI features and how to use them.",
+        "  - You should give them small and targeted pieces of information one at a time and prompt them to say 'next' to continue to the next piece of information until the tutorial is complete."
+      ]
     }
   },
   "include": [
