@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/codepic/Codepic.Cli/main/schema/cli/module-manifest/v1/schema.json",
+  "name": ".",
+  "version": "0.1.0",
+  "description": "Root module manifest for the CLI.",
+  "include": [
+    ".github/instructions/.build.instructions.md",
+    ".github/instructions/.instructions.md",
+    ".github/instructions/.protocol.alignment.instructions.md",
+    ".github/instructions/.tasks.functions.instructions.md",
+    ".github/instructions/.tasks.instructions.md",
+    ".github/prompts/.new-module.prompt.md",
+    "modules/.tasks.functions.ps1",
+    "modules/.tasks.ps1",
+    "modules/module.manifest.json",
+    ".build.ps1",
+    "PSScriptAnalyzerSettings.psd1"
+  ]
+}

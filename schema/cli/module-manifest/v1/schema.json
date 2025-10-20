@@ -14,9 +14,9 @@
     },
     "name": {
       "type": "string",
-      "description": "Lowercase identifier matching the module directory under modules/.",
-      "pattern": "^[a-z0-9-]+$",
-      "examples": ["baseline", "sample"]
+      "description": "Lowercase identifier matching the module directory under modules/. Use '.' for the root module.",
+      "pattern": "^[a-z0-9-\\.]+$",
+      "examples": ["baseline", "sample", "."]
     },
     "version": {
       "type": "string",
