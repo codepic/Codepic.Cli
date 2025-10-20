@@ -15,5 +15,10 @@
     "modules/module.manifest.json",
     ".build.ps1",
     "PSScriptAnalyzerSettings.psd1"
-  ]
+  ],
+  "exclude": [],
+  "source": {
+    "git": "https://github.com/codepic/Codepic.Cli.git",
+    "tagPrefix": "v"
+  }
 }
