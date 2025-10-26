@@ -127,7 +127,7 @@ function New-TemporaryDirectory {
     )
 
     if (-not (Test-Path $ParentPath -PathType Container)) {
-        throw "Parent path '$ParentPath' does not exist or is not a directory."
+        Write-Error "Parent path '$ParentPath' does not exist or is not a directory."
     }
 
     do {

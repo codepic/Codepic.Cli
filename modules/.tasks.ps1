@@ -186,22 +186,22 @@ process {
     #>
     task clone-module {
         if (-not $Module) {
-            throw "Specify -Module when invoking clone-module."
+            Write-Error "Specify -Module when invoking clone-module."
         }
 
         if (-not $Version) {
-            throw "Specify -Version when invoking clone-module."
+            Write-Error "Specify -Version when invoking clone-module."
         }
 
         if (-not $Git) {
-            throw "Specify -Git when invoking clone-module."
+            Write-Error "Specify -Git when invoking clone-module."
         }
 
         $moduleName = $Module.ToLowerInvariant()
         $moduleRoot = Join-Path $PackModulesRoot $moduleName
 
         if (Test-Path $moduleRoot -PathType Container) {
-            throw "Module directory already exists at $moduleRoot. Remove it before cloning."
+            Write-Error "Module directory already exists at $moduleRoot. Remove it before cloning."
         }
 
         $tempRoot = New-TemporaryDirectory
@@ -233,7 +233,7 @@ process {
             Select-Object -First 1
 
             if (-not $manifestCandidate) {
-                throw "Unable to find a module.manifest.json matching name '$moduleName' and version '$Version' in $Git."
+                Write-Error "Unable to find a module.manifest.json matching name '$moduleName' and version '$Version' in $Git."
             }
 
             $manifest = Get-Content -Raw -LiteralPath $manifestCandidate.FullName | ConvertFrom-Json
@@ -241,7 +241,7 @@ process {
             foreach ($include in $manifest.include) {
                 $sourcePath = Join-Path $repoClonePath $include
                 if (-not (Test-Path $sourcePath)) {
-                    throw "Clone archive missing expected path '$include'."
+                    Write-Error "Clone archive missing expected path '$include'."
                 }
 
                 $destinationPath = Join-Path $PackRepoRoot $include
@@ -278,11 +278,11 @@ process {
     #>
     task update-module {
         if (-not $Module) {
-            throw "Specify -Module when invoking update-module."
+            Write-Error "Specify -Module when invoking update-module."
         }
 
         if (-not $Version) {
-            throw "Specify -Version when invoking update-module."
+            Write-Error "Specify -Version when invoking update-module."
         }
 
         $moduleName = $Module.ToLowerInvariant()
@@ -290,7 +290,7 @@ process {
         $manifestPath = Join-Path $moduleRoot 'module.manifest.json'
 
         if (-not (Test-Path $manifestPath -PathType Leaf)) {
-            throw "Module manifest not found at $manifestPath. Clone or unpack the module before updating."
+            Write-Error "Module manifest not found at $manifestPath. Clone or unpack the module before updating."
         }
 
         $installedManifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
@@ -302,7 +302,7 @@ process {
             $installedManifest.source.git
         }
         else {
-            throw "Specify -Git or ensure manifest.source.git is defined for module '$moduleName' before running update-module."
+            Write-Error "Specify -Git or ensure manifest.source.git is defined for module '$moduleName' before running update-module."
         }
 
         $tagPrefix = 'v'
@@ -349,7 +349,7 @@ process {
             Select-Object -First 1
 
             if (-not $manifestCandidate) {
-                throw "Unable to find a module.manifest.json matching name '$moduleName' and version '$Version' in $repositoryUrl."
+                Write-Error "Unable to find a module.manifest.json matching name '$moduleName' and version '$Version' in $repositoryUrl."
             }
 
             $newManifest = Get-Content -Raw -LiteralPath $manifestCandidate.FullName | ConvertFrom-Json
@@ -368,7 +368,7 @@ process {
             foreach ($include in $newManifest.include) {
                 $sourcePath = Join-Path $repoClonePath $include
                 if (-not (Test-Path $sourcePath)) {
-                    throw "Update archive missing expected path '$include'."
+                    Write-Error "Update archive missing expected path '$include'."
                 }
 
                 $destinationPath = Join-Path $PackRepoRoot $include
@@ -456,7 +456,7 @@ process {
             } | Select-Object -First 1
 
             if (-not $manifestCandidate) {
-                throw "Unable to find an enabler.manifest.json matching name '$Enabler' and version '$Version' in $Git."
+                Write-Error "Unable to find an enabler.manifest.json matching name '$Enabler' and version '$Version' in $Git."
             }
 
             $manifest = Get-Content -Raw -LiteralPath $manifestCandidate.FullName | ConvertFrom-Json
@@ -464,7 +464,7 @@ process {
             foreach ($include in $manifest.include) {
                 $sourcePath = Join-Path $repoClonePath $include
                 if (-not (Test-Path $sourcePath)) {
-                    throw "Install archive missing expected path '$include'."
+                    Write-Error "Install archive missing expected path '$include'."
                 }
 
                 $destinationPath = Join-Path $PackRepoRoot $include
@@ -499,18 +499,18 @@ process {
     #>
     task upgrade-enabler {
         if (-not $Enabler) {
-            throw "Specify -Enabler when invoking upgrade-enabler."
+            Write-Error "Specify -Enabler when invoking upgrade-enabler."
         }
 
         if (-not $Version) {
-            throw "Specify -Version when invoking upgrade-enabler."
+            Write-Error "Specify -Version when invoking upgrade-enabler."
         }
 
         $enablerRoot = Join-Path $PackEnablersRoot $Enabler
         $manifestPath = Join-Path $enablerRoot 'enabler.manifest.json'
 
         if (-not (Test-Path $manifestPath -PathType Leaf)) {
-            throw "Enabler manifest not found at $manifestPath. Install the enabler before updating."
+            Write-Error "Enabler manifest not found at $manifestPath. Install the enabler before updating."
         }
 
         $installedManifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
@@ -522,7 +522,7 @@ process {
             $installedManifest.source.git
         }
         else {
-            throw "Specify -Git or ensure manifest.source.git is defined for enabler '$Enabler' before running upgrade-enabler."
+            Write-Error "Specify -Git or ensure manifest.source.git is defined for enabler '$Enabler' before running upgrade-enabler."
         }
 
         $tagPrefix = 'v'
@@ -557,7 +557,7 @@ process {
             Select-Object -First 1
 
             if (-not $manifestCandidate) {
-                throw "Unable to find an enabler.manifest.json matching name '$Enabler' and version '$Version' in $repositoryUrl."
+                Write-Error "Unable to find an enabler.manifest.json matching name '$Enabler' and version '$Version' in $repositoryUrl."
             }
 
             $newManifest = Get-Content -Raw -LiteralPath $manifestCandidate.FullName | ConvertFrom-Json
@@ -574,7 +574,7 @@ process {
             foreach ($include in $newManifest.include) {
                 $sourcePath = Join-Path $repoClonePath $include
                 if (-not (Test-Path $sourcePath)) {
-                    throw "Update archive missing expected path '$include'."
+                    Write-Error "Update archive missing expected path '$include'."
                 }
 
                 $destinationPath = Join-Path $PackRepoRoot $include
@@ -610,14 +610,14 @@ process {
     #>
     task remove-enabler {
         if (-not $Enabler) {
-            throw "Specify -Enabler when invoking remove-enabler."
+            Write-Error "Specify -Enabler when invoking remove-enabler."
         }
 
         $enablerRoot = Join-Path $PackEnablersRoot $Enabler
         $manifestPath = Join-Path $enablerRoot 'enabler.manifest.json'
 
         if (-not (Test-Path $manifestPath -PathType Leaf)) {
-            throw "Enabler manifest not found at $manifestPath. Nothing to remove."
+            Write-Error "Enabler manifest not found at $manifestPath. Nothing to remove."
         }
 
         $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
@@ -656,7 +656,7 @@ process {
     #>
     task pack-module {
         if (-not $Module) {
-            throw "Specify -Module when invoking pack-module."
+            Write-Error "Specify -Module when invoking pack-module."
         }
 
         $moduleName = $Module.ToLowerInvariant()
@@ -664,21 +664,21 @@ process {
         $manifestPath = Join-Path $moduleRoot 'module.manifest.json'
 
         if (-not (Test-Path $manifestPath -PathType Leaf)) {
-            throw "Module manifest not found at $manifestPath."
+            Write-Error "Module manifest not found at $manifestPath."
         }
 
         $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
 
         if ([string]::IsNullOrWhiteSpace($manifest.version)) {
-            throw "Manifest version is required to create a versioned archive."
+            Write-Error "Manifest version is required to create a versioned archive."
         }
 
         if ($Version -and $Version -ne $manifest.version) {
-            throw "Specified -Version '$Version' does not match manifest version '$($manifest.version)'."
+            Write-Error "Specified -Version '$Version' does not match manifest version '$($manifest.version)'."
         }
 
         if ($manifest.name -ne $moduleName) {
-            throw "Manifest name '$($manifest.name)' must match module directory '$moduleName'."
+            Write-Error "Manifest name '$($manifest.name)' must match module directory '$moduleName'."
         }
 
         foreach ($include in $manifest.include) {
@@ -700,7 +700,7 @@ process {
         $archiveRelativePaths = $archiveRelativePaths | Sort-Object -Unique
 
         if (-not $archiveRelativePaths) {
-            throw "Manifest include set resolved to an empty file list."
+            Write-Error "Manifest include set resolved to an empty file list."
         }
 
         if (-not (Test-Path $PackDistRoot -PathType Container)) {
@@ -765,11 +765,11 @@ process {
     #>
     task unpack-module {
         if (-not $Module) {
-            throw "Specify -Module when invoking unpack-module."
+            Write-Error "Specify -Module when invoking unpack-module."
         }
 
         if (-not $Version) {
-            throw "Specify -Version when invoking unpack-module."
+            Write-Error "Specify -Version when invoking unpack-module."
         }
 
         $moduleName = $Module.ToLowerInvariant()
@@ -782,7 +782,7 @@ process {
                 $zipPath = $legacyPath
             }
             else {
-                throw "Module archive version '$Version' not found. Expected one of: '$($moduleName).$Version.zip' or 'Module.$Version.zip' in $distModuleRoot."
+                Write-Error "Module archive version '$Version' not found. Expected one of: '$($moduleName).$Version.zip' or 'Module.$Version.zip' in $distModuleRoot."
             }
         }
 
@@ -802,7 +802,7 @@ process {
                     $expandedManifestPath = $alternateManifestPath
                 }
                 else {
-                    throw "Manifest not found inside archive at $manifestRelativePath or in the archive root."
+                    Write-Error "Manifest not found inside archive at $manifestRelativePath or in the archive root."
                 }
             }
 
@@ -816,7 +816,7 @@ process {
                         $sourcePath = $fallbackSourcePath
                     }
                     else {
-                        throw "Archive missing expected file '$include'."
+                        Write-Error "Archive missing expected file '$include'."
                     }
                 }
 
@@ -855,7 +855,7 @@ process {
     #>
     task remove-module {
         if (-not $Module) {
-            throw "Specify -Module when invoking remove-module."
+            Write-Error "Specify -Module when invoking remove-module."
         }
 
         $moduleName = $Module.ToLowerInvariant()
@@ -863,7 +863,7 @@ process {
         $manifestPath = Join-Path $moduleRoot 'module.manifest.json'
 
         if (-not (Test-Path $manifestPath -PathType Leaf)) {
-            throw "Module manifest not found at $manifestPath."
+            Write-Error "Module manifest not found at $manifestPath."
         }
 
         $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
