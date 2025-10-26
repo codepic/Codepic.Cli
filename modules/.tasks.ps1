@@ -11,6 +11,8 @@
     The Git repository URL used when cloning a module into the workspace.
 .PARAMETER Version
     The module version used when operations need to target a specific packaged artifact (for example, unpacking).
+.PARAMETER Enabler
+    The enabler name supplied by the caller when tasks require enabler-specific context (for example, installation).
 .PARAMETER RestArgs
     Overflow arguments forwarded from `.build.ps1`; ensures splatted parameters bind consistently across task files.
 .NOTES
@@ -49,6 +51,18 @@
 .EXAMPLE
     # Remove module files according to the manifest definitions
     codepic . remove-module -Module sample
+
+.EXAMPLE
+    # Install an enabler from a Git repository and execute its setup task
+    codepic . install-enabler -Enabler azcli -Version 0.1.0 -Git https://github.com/codepic/Codepic.Cli.Enabler.AzCli.git
+
+.EXAMPLE
+    # Update an enabler using its tracked source repository
+    codepic . upgrade-enabler -Enabler azcli -Version 0.1.1
+
+.EXAMPLE
+    # Remove an enabler and clean up its tracked files
+    codepic . remove-enabler -Enabler azcli
 #>
 [CmdletBinding()]
 param (
@@ -76,6 +90,12 @@ param (
     [string]
     $Version,
 
+    # Enabler identifier consumed by enabler lifecycle tasks
+    [Parameter(Mandatory = $false)]
+    [ValidateNotNullOrEmpty()]
+    [LowerCase]
+    $Enabler,
+
     # Overflow arguments passed through from .build.ps1
     [Parameter(Mandatory = $false, ValueFromRemainingArguments = $true)]
     $RestArgs
@@ -91,6 +111,7 @@ begin {
     $PackRepoRoot = (Resolve-Path '.').ProviderPath
     $PackModulesRoot = Join-Path $PackRepoRoot 'modules'
     $PackDistRoot = Join-Path $PackRepoRoot 'dist'
+    $PackEnablersRoot = Join-Path $PackRepoRoot 'enablers'
 
     # Touch overflow arguments so script analyzer acknowledges the parameter is intentionally unused downstream.
     $null = $RestArgs
@@ -125,8 +146,7 @@ process {
         exec {
             Invoke-ScriptAnalyzer -Path '.' `
                 -Settings $LintTasksAnalyzerSettingsPath `
-                -Recurse `
-                -EnableExit
+                -Recurse
         } -Echo
     }
 
@@ -166,27 +186,26 @@ process {
     #>
     task clone-module {
         if (-not $Module) {
-            throw "Specify -Module when invoking clone-module."
+            Write-Error "Specify -Module when invoking clone-module."
         }
 
         if (-not $Version) {
-            throw "Specify -Version when invoking clone-module."
+            Write-Error "Specify -Version when invoking clone-module."
         }
 
         if (-not $Git) {
-            throw "Specify -Git when invoking clone-module."
+            Write-Error "Specify -Git when invoking clone-module."
         }
 
         $moduleName = $Module.ToLowerInvariant()
         $moduleRoot = Join-Path $PackModulesRoot $moduleName
 
         if (Test-Path $moduleRoot -PathType Container) {
-            throw "Module directory already exists at $moduleRoot. Remove it before cloning."
+            Write-Error "Module directory already exists at $moduleRoot. Remove it before cloning."
         }
 
-        $tempRoot = Join-Path ([IO.Path]::GetTempPath()) ([Guid]::NewGuid().Guid)
+        $tempRoot = New-TemporaryDirectory
         $repoClonePath = Join-Path $tempRoot 'repo'
-        New-Item -ItemType Directory -Path $tempRoot | Out-Null
 
         try {
             $gitRepositoryUrl = $Git
@@ -214,7 +233,7 @@ process {
             Select-Object -First 1
 
             if (-not $manifestCandidate) {
-                throw "Unable to find a module.manifest.json matching name '$moduleName' and version '$Version' in $Git."
+                Write-Error "Unable to find a module.manifest.json matching name '$moduleName' and version '$Version' in $Git."
             }
 
             $manifest = Get-Content -Raw -LiteralPath $manifestCandidate.FullName | ConvertFrom-Json
@@ -222,7 +241,7 @@ process {
             foreach ($include in $manifest.include) {
                 $sourcePath = Join-Path $repoClonePath $include
                 if (-not (Test-Path $sourcePath)) {
-                    throw "Clone archive missing expected path '$include'."
+                    Write-Error "Clone archive missing expected path '$include'."
                 }
 
                 $destinationPath = Join-Path $PackRepoRoot $include
@@ -259,11 +278,11 @@ process {
     #>
     task update-module {
         if (-not $Module) {
-            throw "Specify -Module when invoking update-module."
+            Write-Error "Specify -Module when invoking update-module."
         }
 
         if (-not $Version) {
-            throw "Specify -Version when invoking update-module."
+            Write-Error "Specify -Version when invoking update-module."
         }
 
         $moduleName = $Module.ToLowerInvariant()
@@ -271,7 +290,7 @@ process {
         $manifestPath = Join-Path $moduleRoot 'module.manifest.json'
 
         if (-not (Test-Path $manifestPath -PathType Leaf)) {
-            throw "Module manifest not found at $manifestPath. Clone or unpack the module before updating."
+            Write-Error "Module manifest not found at $manifestPath. Clone or unpack the module before updating."
         }
 
         $installedManifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
@@ -283,7 +302,7 @@ process {
             $installedManifest.source.git
         }
         else {
-            throw "Specify -Git or ensure manifest.source.git is defined for module '$moduleName' before running update-module."
+            Write-Error "Specify -Git or ensure manifest.source.git is defined for module '$moduleName' before running update-module."
         }
 
         $tagPrefix = 'v'
@@ -301,9 +320,8 @@ process {
             $gitTag = "$tagPrefix$Version"
         }
 
-        $tempRoot = Join-Path ([IO.Path]::GetTempPath()) ([Guid]::NewGuid().Guid)
+        $tempRoot = New-TemporaryDirectory
         $repoClonePath = Join-Path $tempRoot 'repo'
-        New-Item -ItemType Directory -Path $tempRoot | Out-Null
 
         try {
             $gitRepositoryUrl = $repositoryUrl
@@ -331,7 +349,7 @@ process {
             Select-Object -First 1
 
             if (-not $manifestCandidate) {
-                throw "Unable to find a module.manifest.json matching name '$moduleName' and version '$Version' in $repositoryUrl."
+                Write-Error "Unable to find a module.manifest.json matching name '$moduleName' and version '$Version' in $repositoryUrl."
             }
 
             $newManifest = Get-Content -Raw -LiteralPath $manifestCandidate.FullName | ConvertFrom-Json
@@ -350,7 +368,7 @@ process {
             foreach ($include in $newManifest.include) {
                 $sourcePath = Join-Path $repoClonePath $include
                 if (-not (Test-Path $sourcePath)) {
-                    throw "Update archive missing expected path '$include'."
+                    Write-Error "Update archive missing expected path '$include'."
                 }
 
                 $destinationPath = Join-Path $PackRepoRoot $include
@@ -373,6 +391,261 @@ process {
 
     <#
         .SYNOPSIS
+            Installs an enabler and triggers its install routine.
+        .DESCRIPTION
+            Ensures an enabler name is supplied, invokes `download-enabler` when a Git source is provided, and then runs the enabler's own `install` task so it can perform post-copy setup.
+        .PARAMETER Enabler
+            Name of the enabler to activate within the workspace.
+        .PARAMETER Version
+            Target version for the enabler. Required when `-Git` is supplied so the download task knows which tag to fetch.
+        .PARAMETER Git
+            Optional Git repository containing the enabler files. When omitted, the task assumes the enabler is already present under `./enablers/<name>/`.
+        .EXAMPLE
+            codepic . install-enabler -Enabler azcli -Version 0.1.0 -Git https://github.com/codepic/Codepic.Cli.Enabler.AzCli.git
+        .EXAMPLE
+            codepic . install-enabler -Enabler azcli
+    #>
+    task install-enabler download-enabler, {
+        $Enabler | Guard-NotNullOrEmpty 'Specify -Enabler when invoking install-enabler.'
+
+        $enablerTasksPath = Join-Path $PackRepoRoot "enablers/$Enabler/.tasks.ps1"
+        Invoke-EnablerTask -TaskPath $enablerTasksPath -TaskName 'install'
+
+        Write-Build Green "Installed enabler '$Enabler' version $Version from $Git."
+    }
+
+    <#
+        .SYNOPSIS
+            Downloads an enabler from a Git repository.
+        .DESCRIPTION
+            Clones the supplied Git repository to a temporary location, locates a matching enabler manifest, and copies the manifest's include paths into the current repository.
+        .PARAMETER Enabler
+            Name of the enabler expected inside the remote manifest.
+        .PARAMETER Version
+            Version tag to install from the remote manifest.
+        .PARAMETER Git
+            The Git repository URL to clone.
+        .EXAMPLE
+            codepic . install-enabler -Enabler azcli -Version 0.1.0 -Git https://github.com/codepic/Codepic.Cli.Enabler.AzCli.git
+    #>
+    task download-enabler -If ($Git) {
+        $Version | Guard-NotNullOrEmpty 'Specify -Version when installing enabler from git.'
+        $Git     | Guard-NotNullOrEmpty 'Specify -Git when installing enabler from git.'
+
+        Ensure-Directory -Path $PackEnablersRoot
+        $tempRoot = New-TemporaryDirectory
+
+        try {
+            $gitCloneBranch = "v$Version"
+            $repoClonePath = Join-Path $tempRoot 'repo'
+
+            exec {
+                git clone --quiet --depth 1 --branch $gitCloneBranch --single-branch $Git $repoClonePath
+            } -Echo
+
+            $manifestCandidate = Get-ChildItem -Path $repoClonePath -Recurse -Filter 'enabler.manifest.json' -ErrorAction SilentlyContinue |
+            Where-Object {
+                try {
+                    $candidate = Get-Content -Raw -LiteralPath $_.FullName | ConvertFrom-Json
+                    ($candidate.name -and $candidate.name.ToString().ToLowerInvariant() -eq $Enabler.Value) -and `
+                    ($candidate.version -and $candidate.version.ToString() -eq $Version)
+                }
+                catch {
+                    $false
+                }
+            } | Select-Object -First 1
+
+            if (-not $manifestCandidate) {
+                Write-Error "Unable to find an enabler.manifest.json matching name '$Enabler' and version '$Version' in $Git."
+            }
+
+            $manifest = Get-Content -Raw -LiteralPath $manifestCandidate.FullName | ConvertFrom-Json
+
+            foreach ($include in $manifest.include) {
+                $sourcePath = Join-Path $repoClonePath $include
+                if (-not (Test-Path $sourcePath)) {
+                    Write-Error "Install archive missing expected path '$include'."
+                }
+
+                $destinationPath = Join-Path $PackRepoRoot $include
+                $destinationDir = Split-Path $destinationPath -Parent
+                if ($destinationDir) {
+                    Ensure-Directory -Path $destinationDir
+                }
+
+                Copy-Item -LiteralPath $sourcePath -Destination $destinationPath -Force -Recurse
+            }
+        }
+        finally {
+            if (Test-Path $tempRoot -PathType Container) {
+                Remove-Item -LiteralPath $tempRoot -Recurse -Force
+            }
+        }
+    }
+
+    <#
+        .SYNOPSIS
+            Updates an installed enabler to the requested version.
+        .DESCRIPTION
+            Clones the enabler's repository, replaces the installed files with the manifest's include paths, and executes the enabler upgrade task.
+        .PARAMETER Enabler
+            Name of the enabler to update.
+        .PARAMETER Version
+            Version tag to install from the repository.
+        .PARAMETER Git
+            Optional override for the repository URL when the manifest lacks source metadata.
+        .EXAMPLE
+            codepic . upgrade-enabler -Enabler azcli -Version 0.1.1
+    #>
+    task upgrade-enabler {
+        if (-not $Enabler) {
+            Write-Error "Specify -Enabler when invoking upgrade-enabler."
+        }
+
+        if (-not $Version) {
+            Write-Error "Specify -Version when invoking upgrade-enabler."
+        }
+
+        $enablerRoot = Join-Path $PackEnablersRoot $Enabler
+        $manifestPath = Join-Path $enablerRoot 'enabler.manifest.json'
+
+        if (-not (Test-Path $manifestPath -PathType Leaf)) {
+            Write-Error "Enabler manifest not found at $manifestPath. Install the enabler before updating."
+        }
+
+        $installedManifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
+
+        $repositoryUrl = if ($Git) {
+            $Git
+        }
+        elseif ($installedManifest.source -and $installedManifest.source.git) {
+            $installedManifest.source.git
+        }
+        else {
+            Write-Error "Specify -Git or ensure manifest.source.git is defined for enabler '$Enabler' before running upgrade-enabler."
+        }
+
+        $tagPrefix = 'v'
+        if ($installedManifest.source -and $installedManifest.source.PSObject.Properties['tagPrefix']) {
+            $tagPrefix = $installedManifest.source.tagPrefix
+            if ($null -eq $tagPrefix) {
+                $tagPrefix = ''
+            }
+        }
+
+        $gitTag = if ([string]::IsNullOrWhiteSpace($tagPrefix)) { $Version } else { "$tagPrefix$Version" }
+
+        $tempRoot = New-TemporaryDirectory
+        $repoClonePath = Join-Path $tempRoot 'repo'
+
+        try {
+            exec {
+                git clone --quiet --depth 1 --branch $gitTag --single-branch $repositoryUrl $repoClonePath
+            } -Echo
+
+            $manifestCandidate = Get-ChildItem -Path $repoClonePath -Recurse -Filter 'enabler.manifest.json' -ErrorAction SilentlyContinue |
+            Where-Object {
+                try {
+                    $candidate = Get-Content -Raw -LiteralPath $_.FullName | ConvertFrom-Json
+                    ($candidate.name -and $candidate.name.ToString().ToLowerInvariant() -eq $Enabler.Value) -and `
+                    ($candidate.version -and $candidate.version.ToString() -eq $Version)
+                }
+                catch {
+                    $false
+                }
+            } |
+            Select-Object -First 1
+
+            if (-not $manifestCandidate) {
+                Write-Error "Unable to find an enabler.manifest.json matching name '$Enabler' and version '$Version' in $repositoryUrl."
+            }
+
+            $newManifest = Get-Content -Raw -LiteralPath $manifestCandidate.FullName | ConvertFrom-Json
+
+            foreach ($include in $installedManifest.include) {
+                $targetPath = Join-Path $PackRepoRoot $include
+                Remove-PathItem -LiteralPath $targetPath
+            }
+
+            if ((Test-Path $enablerRoot -PathType Container) -and -not (Get-ChildItem -LiteralPath $enablerRoot -Force)) {
+                Remove-Item -LiteralPath $enablerRoot -Force
+            }
+
+            foreach ($include in $newManifest.include) {
+                $sourcePath = Join-Path $repoClonePath $include
+                if (-not (Test-Path $sourcePath)) {
+                    Write-Error "Update archive missing expected path '$include'."
+                }
+
+                $destinationPath = Join-Path $PackRepoRoot $include
+                $destinationDir = Split-Path $destinationPath -Parent
+                if ($destinationDir) {
+                    Ensure-Directory -Path $destinationDir
+                }
+
+                Copy-Item -LiteralPath $sourcePath -Destination $destinationPath -Force -Recurse
+            }
+
+            $enablerTasksPath = Join-Path $PackRepoRoot "enablers/$Enabler/.tasks.ps1"
+            Invoke-EnablerTask -TaskPath $enablerTasksPath -TaskName 'upgrade'
+
+            Write-Build Green "Updated enabler '$Enabler' to version $Version from $repositoryUrl."
+        }
+        finally {
+            if (Test-Path $tempRoot -PathType Container) {
+                Remove-Item -LiteralPath $tempRoot -Recurse -Force
+            }
+        }
+    }
+
+    <#
+        .SYNOPSIS
+            Removes an installed enabler and its tracked files.
+        .DESCRIPTION
+            Executes the enabler removal task (if present) and deletes every include path declared in the manifest.
+        .PARAMETER Enabler
+            Name of the enabler to remove from the workspace.
+        .EXAMPLE
+            codepic . remove-enabler -Enabler azcli
+    #>
+    task remove-enabler {
+        if (-not $Enabler) {
+            Write-Error "Specify -Enabler when invoking remove-enabler."
+        }
+
+        $enablerRoot = Join-Path $PackEnablersRoot $Enabler
+        $manifestPath = Join-Path $enablerRoot 'enabler.manifest.json'
+
+        if (-not (Test-Path $manifestPath -PathType Leaf)) {
+            Write-Error "Enabler manifest not found at $manifestPath. Nothing to remove."
+        }
+
+        $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
+        $enablerTasksPath = Join-Path $PackRepoRoot "enablers/$Enabler/.tasks.ps1"
+
+        if (Test-Path $enablerTasksPath -PathType Leaf) {
+            try {
+                Invoke-EnablerTask -TaskPath $enablerTasksPath -TaskName 'remove'
+            }
+            catch {
+                Write-Warning $_
+            }
+        }
+
+        foreach ($include in $manifest.include) {
+            $targetPath = Join-Path $PackRepoRoot $include
+            Remove-PathItem -LiteralPath $targetPath
+        }
+
+        if ((Test-Path $enablerRoot -PathType Container) -and -not (Get-ChildItem -LiteralPath $enablerRoot -Force)) {
+            Remove-Item -LiteralPath $enablerRoot -Force
+        }
+
+        Write-Build Green "Removed enabler '$Enabler'."
+    }
+
+    <#
+        .SYNOPSIS
             Creates a portable archive of a module based on its manifest.
         .DESCRIPTION
             Validates the module manifest, gathers all declared include paths, and writes Module.zip under ./dist/<module>/.
@@ -383,7 +656,7 @@ process {
     #>
     task pack-module {
         if (-not $Module) {
-            throw "Specify -Module when invoking pack-module."
+            Write-Error "Specify -Module when invoking pack-module."
         }
 
         $moduleName = $Module.ToLowerInvariant()
@@ -391,21 +664,21 @@ process {
         $manifestPath = Join-Path $moduleRoot 'module.manifest.json'
 
         if (-not (Test-Path $manifestPath -PathType Leaf)) {
-            throw "Module manifest not found at $manifestPath."
+            Write-Error "Module manifest not found at $manifestPath."
         }
 
         $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
 
         if ([string]::IsNullOrWhiteSpace($manifest.version)) {
-            throw "Manifest version is required to create a versioned archive."
+            Write-Error "Manifest version is required to create a versioned archive."
         }
 
         if ($Version -and $Version -ne $manifest.version) {
-            throw "Specified -Version '$Version' does not match manifest version '$($manifest.version)'."
+            Write-Error "Specified -Version '$Version' does not match manifest version '$($manifest.version)'."
         }
 
         if ($manifest.name -ne $moduleName) {
-            throw "Manifest name '$($manifest.name)' must match module directory '$moduleName'."
+            Write-Error "Manifest name '$($manifest.name)' must match module directory '$moduleName'."
         }
 
         foreach ($include in $manifest.include) {
@@ -427,7 +700,7 @@ process {
         $archiveRelativePaths = $archiveRelativePaths | Sort-Object -Unique
 
         if (-not $archiveRelativePaths) {
-            throw "Manifest include set resolved to an empty file list."
+            Write-Error "Manifest include set resolved to an empty file list."
         }
 
         if (-not (Test-Path $PackDistRoot -PathType Container)) {
@@ -492,11 +765,11 @@ process {
     #>
     task unpack-module {
         if (-not $Module) {
-            throw "Specify -Module when invoking unpack-module."
+            Write-Error "Specify -Module when invoking unpack-module."
         }
 
         if (-not $Version) {
-            throw "Specify -Version when invoking unpack-module."
+            Write-Error "Specify -Version when invoking unpack-module."
         }
 
         $moduleName = $Module.ToLowerInvariant()
@@ -509,14 +782,13 @@ process {
                 $zipPath = $legacyPath
             }
             else {
-                throw "Module archive version '$Version' not found. Expected one of: '$($moduleName).$Version.zip' or 'Module.$Version.zip' in $distModuleRoot."
+                Write-Error "Module archive version '$Version' not found. Expected one of: '$($moduleName).$Version.zip' or 'Module.$Version.zip' in $distModuleRoot."
             }
         }
 
         $archiveVersion = $Version
 
-        $tempRoot = Join-Path ([IO.Path]::GetTempPath()) ([Guid]::NewGuid().Guid)
-        New-Item -ItemType Directory -Path $tempRoot | Out-Null
+        $tempRoot = New-TemporaryDirectory
 
         try {
             Expand-Archive -LiteralPath $zipPath -DestinationPath $tempRoot -Force
@@ -530,7 +802,7 @@ process {
                     $expandedManifestPath = $alternateManifestPath
                 }
                 else {
-                    throw "Manifest not found inside archive at $manifestRelativePath or in the archive root."
+                    Write-Error "Manifest not found inside archive at $manifestRelativePath or in the archive root."
                 }
             }
 
@@ -544,7 +816,7 @@ process {
                         $sourcePath = $fallbackSourcePath
                     }
                     else {
-                        throw "Archive missing expected file '$include'."
+                        Write-Error "Archive missing expected file '$include'."
                     }
                 }
 
@@ -583,7 +855,7 @@ process {
     #>
     task remove-module {
         if (-not $Module) {
-            throw "Specify -Module when invoking remove-module."
+            Write-Error "Specify -Module when invoking remove-module."
         }
 
         $moduleName = $Module.ToLowerInvariant()
@@ -591,7 +863,7 @@ process {
         $manifestPath = Join-Path $moduleRoot 'module.manifest.json'
 
         if (-not (Test-Path $manifestPath -PathType Leaf)) {
-            throw "Module manifest not found at $manifestPath."
+            Write-Error "Module manifest not found at $manifestPath."
         }
 
         $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json

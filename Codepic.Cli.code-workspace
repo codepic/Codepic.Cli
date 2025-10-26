@@ -22,8 +22,10 @@
     "files.insertFinalNewline": true,
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
-      "*.tasks.ps1": "*.tasks.functions.ps1"
-    }
+      "*.tasks.ps1": "*.tasks.functions.ps1, *.tasks.types.ps1"
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.defaultProfile.linux": "bash"
   },
   "extensions": {
     "recommendations": ["ms-vscode.PowerShell"]

@@ -1,2 +1,5 @@
 # Ignore build output directory
 dist/
+
+# Ignore binary files
+bin/

@@ -116,6 +116,12 @@ process {
         $modulePath = Join-Path -Path $HERE -ChildPath "modules"
         Write-Verbose "Searching for task files in: $modulePath"
         $taskFiles += Get-ChildItem -Path $modulePath -Filter '*.tasks.ps1' -ErrorAction SilentlyContinue -Force # -Force to include hidden files
+
+        $enablersPath = Join-Path -Path $HERE -ChildPath "enablers"
+        if (Test-Path $enablersPath -PathType Container) {
+            Write-Verbose "Searching for enabler task files in: $enablersPath"
+            $taskFiles += Get-ChildItem -Path $enablersPath -Recurse -Filter '*.tasks.ps1' -ErrorAction SilentlyContinue -Force
+        }
     }
     else {
         $modulePath = Join-Path -Path $HERE -ChildPath "modules\$($Scope.ToLower())"
@@ -151,6 +157,13 @@ process {
                     $splat += @{ $key = $_ }
                 }
             }
+        }
+
+        # Import associated types file if it exists
+        $typefile = $_.FullName -replace '\.tasks\.ps1$', '.tasks.types.ps1'
+        if (Test-Path $typefile -PathType Leaf) {
+            Write-Verbose "Loading types file: $typefile"
+            . $typefile
         }
 
         # Dot-source the task file with the prepared arguments
