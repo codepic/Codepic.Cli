@@ -34,8 +34,10 @@ Instruction files under `.github/instructions/` define the governing rules that 
 Enablers represent optional tooling and integrations that the slim core orchestrates without bundling directly into the CLI. See `docs/enablers.md` for the process of introducing new capabilities.
 
 - **Slim core guarantee** — The bootstrapper remains lean; enablers add Terraform, Bicep, or other stacks only when modules demand them.
+- **Prerequisite boundary** — Runtime fundamentals such as PowerShell 7+ stay listed as prerequisites, not enablers; the catalogue only tracks optional additions.
 - **Opt-in installation** — Each enabler documents how humans and agents acquire prerequisites so the CLI avoids imposing global dependencies.
 - **Lifecycle governance** — Contributors follow the enabler lifecycle to register tasks, update instruction files, and keep CI parity before shipping new optional tooling.
+- **First enabler** — `azcli` validates Azure CLI availability, provides upgrade guidance, and illustrates the manifest + `.tasks.ps1` pattern shared by future enablers.
 
 ## Future Opportunities
 
