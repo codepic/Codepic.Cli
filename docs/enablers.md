@@ -45,8 +45,8 @@ Keeping this inventory current helps maintain transparency around optional depen
 
 ### Azure CLI (`azcli`)
 
-- **Owning module**: Root module (`enabler:install`, `enabler:upgrade`, `enabler:remove` tasks exposed via `codepic . install-enabler`, `upgrade-enabler`, `remove-enabler`).
+- **Owning module**: Root module (`enabler:install`, `enabler:upgrade`, `enabler:remove` tasks exposed via `{CLI} . install-enabler`, `upgrade-enabler`, `remove-enabler`).
 - **Purpose**: Verifies Azure CLI availability, provides an upgrade helper, and surfaces manual uninstall guidance.
 - **Prerequisites**: PowerShell 7+, Git, and Azure CLI installed per [official docs](https://learn.microsoft.com/cli/azure/install-azure-cli).
-- **Testing guidance**: Run `codepic . install-enabler -Enabler azcli -Version <tag> -Git <repo>` followed by `codepic . upgrade-enabler -Enabler azcli -Version <tag>` to confirm lifecycle tasks succeed. Validate removal with `codepic . remove-enabler -Enabler azcli`.
+- **Testing guidance**: Run `{CLI} . install-enabler -Enabler azcli -Version <tag> -Git <repo>` followed by `{CLI} . upgrade-enabler -Enabler azcli -Version <tag>` to confirm lifecycle tasks succeed. Validate removal with `{CLI} . remove-enabler -Enabler azcli`.
 - **Binary lookup**: Command name `az`. Expected locations include `%ProgramFiles%\Microsoft SDKs\Azure\CLI2\wbin\az.cmd` (Windows), `/usr/bin/az` and `/usr/local/bin/az` (most Linux distros), and `/usr/local/bin/az` or `/opt/homebrew/bin/az` (macOS).
