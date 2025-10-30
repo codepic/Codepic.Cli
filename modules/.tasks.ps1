@@ -4,7 +4,7 @@
 .DESCRIPTION
     Ships with the CLI to provide reusable automation tasks and setup helpers (like alias creation) that future modules can extend.
 .PARAMETER Alias
-    The alias name registered for `.build.ps1` to enable shorthand task invocation (defaults to `codepic`).
+    The alias name registered for `.build.ps1` to enable shorthand task invocation (defaults to `cc`; swap in your preferred alias).
 .PARAMETER Module
     The module name supplied by the caller when tasks require module-specific context (for example, packing a module).
 .PARAMETER Git
@@ -19,50 +19,50 @@
     Invoke tasks via `.build.ps1` or the registered alias once created.
 .EXAMPLE
     # Run the init task via the bootstrapper
-    ./.build.ps1 init -Alias codepic
+    ./.build.ps1 init -Alias {CLI}
 
 .EXAMPLE
     # After running init at least once, invoke tasks through the alias
-    codepic init
+    {CLI} init
 
 .EXAMPLE
     # Run lint checks with the repository's analyzer settings
-    codepic lint
+    {CLI} lint
 
 .EXAMPLE
     # Attempt automatic fixes for analyzer findings
-    codepic lint-fix
+    {CLI} lint-fix
 .EXAMPLE
     # Package a module artifact using its manifest
-    codepic . pack-module -Module sample
+    {CLI} . pack-module -Module sample
 
 .EXAMPLE
     # Restore module files from the packaged artifact
-    codepic . unpack-module -Module sample -Version 0.1.0
+    {CLI} . unpack-module -Module sample -Version 0.1.0
 
 .EXAMPLE
     # Clone a module from a Git repository and place it in the workspace
-    codepic . clone-module -Module sample -Version 0.1.1 -Git https://github.com/codepic/Codepic.Cli.Sample.git
+    {CLI} . clone-module -Module sample -Version 0.1.1 -Git https://github.com/codepic/Codepic.Cli.Sample.git
 
 .EXAMPLE
     # Update a module to a newer version using its manifest source metadata
-    codepic . update-module -Module sample -Version 0.1.2
+    {CLI} . update-module -Module sample -Version 0.1.2
 
 .EXAMPLE
     # Remove module files according to the manifest definitions
-    codepic . remove-module -Module sample
+    {CLI} . remove-module -Module sample
 
 .EXAMPLE
     # Install an enabler from a Git repository and execute its setup task
-    codepic . install-enabler -Enabler azcli -Version 0.1.0 -Git https://github.com/codepic/Codepic.Cli.Enabler.AzCli.git
+    {CLI} . install-enabler -Enabler azcli -Version 0.1.0 -Git https://github.com/codepic/Codepic.Cli.Enabler.AzCli.git
 
 .EXAMPLE
     # Update an enabler using its tracked source repository
-    codepic . upgrade-enabler -Enabler azcli -Version 0.1.1
+    {CLI} . upgrade-enabler -Enabler azcli -Version 0.1.1
 
 .EXAMPLE
     # Remove an enabler and clean up its tracked files
-    codepic . remove-enabler -Enabler azcli
+    {CLI} . remove-enabler -Enabler azcli
 #>
 [CmdletBinding()]
 param (
@@ -70,7 +70,7 @@ param (
     [Parameter(Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $Alias = 'codepic',
+    $Alias = 'cc',
 
     # Module identifier consumed by packaging-related tasks
     [Parameter(Mandatory = $false)]
@@ -127,7 +127,7 @@ process {
         .PARAMETER Alias
             The alias name to be created in the PowerShell profile. This alias will point to the .build.ps1 script.
         .EXAMPLE
-            ./.build.ps1 init -Alias codepic
+            ./.build.ps1 init -Alias {CLI}
     #>
     task init {
         Invoke-AliasSetup -Alias $Alias
@@ -140,7 +140,7 @@ process {
             Executes Invoke-ScriptAnalyzer with the repository's PSScriptAnalyzerSettings.psd1 to surface
             cross-platform PowerShell 7+ compatibility issues for Windows and Ubuntu environments.
         .EXAMPLE
-            codepic lint
+            {CLI} lint
     #>
     task lint {
         exec {
@@ -157,7 +157,7 @@ process {
             Runs Invoke-ScriptAnalyzer with -Fix and then re-runs lint to verify no diagnostics remain.
             Any remaining issues are surfaced for manual remediation.
         .EXAMPLE
-            codepic lint-fix
+            {CLI} lint-fix
     #>
     task lint-fix {
         exec {
@@ -182,7 +182,7 @@ process {
         .PARAMETER Git
             The Git repository URL to clone.
         .EXAMPLE
-            codepic . clone-module -Module sample -Version 0.1.1 -Git https://github.com/codepic/Codepic.Cli.Sample.git
+            {CLI} . clone-module -Module sample -Version 0.1.1 -Git https://github.com/codepic/Codepic.Cli.Sample.git
     #>
     task clone-module {
         if (-not $Module) {
@@ -274,7 +274,7 @@ process {
         .PARAMETER Git
             Optional override for the repository URL when manifest metadata is missing or overridden.
         .EXAMPLE
-            codepic . update-module -Module sample -Version 0.1.2
+            {CLI} . update-module -Module sample -Version 0.1.2
     #>
     task update-module {
         if (-not $Module) {
@@ -401,9 +401,9 @@ process {
         .PARAMETER Git
             Optional Git repository containing the enabler files. When omitted, the task assumes the enabler is already present under `./enablers/<name>/`.
         .EXAMPLE
-            codepic . install-enabler -Enabler azcli -Version 0.1.0 -Git https://github.com/codepic/Codepic.Cli.Enabler.AzCli.git
+            {CLI} . install-enabler -Enabler azcli -Version 0.1.0 -Git https://github.com/codepic/Codepic.Cli.Enabler.AzCli.git
         .EXAMPLE
-            codepic . install-enabler -Enabler azcli
+            {CLI} . install-enabler -Enabler azcli
     #>
     task install-enabler download-enabler, {
         $Enabler | Guard-NotNullOrEmpty 'Specify -Enabler when invoking install-enabler.'
@@ -426,7 +426,7 @@ process {
         .PARAMETER Git
             The Git repository URL to clone.
         .EXAMPLE
-            codepic . install-enabler -Enabler azcli -Version 0.1.0 -Git https://github.com/codepic/Codepic.Cli.Enabler.AzCli.git
+            {CLI} . install-enabler -Enabler azcli -Version 0.1.0 -Git https://github.com/codepic/Codepic.Cli.Enabler.AzCli.git
     #>
     task download-enabler -If ($Git) {
         $Version | Guard-NotNullOrEmpty 'Specify -Version when installing enabler from git.'
@@ -495,7 +495,7 @@ process {
         .PARAMETER Git
             Optional override for the repository URL when the manifest lacks source metadata.
         .EXAMPLE
-            codepic . upgrade-enabler -Enabler azcli -Version 0.1.1
+            {CLI} . upgrade-enabler -Enabler azcli -Version 0.1.1
     #>
     task upgrade-enabler {
         if (-not $Enabler) {
@@ -606,7 +606,7 @@ process {
         .PARAMETER Enabler
             Name of the enabler to remove from the workspace.
         .EXAMPLE
-            codepic . remove-enabler -Enabler azcli
+            {CLI} . remove-enabler -Enabler azcli
     #>
     task remove-enabler {
         if (-not $Enabler) {
@@ -652,7 +652,7 @@ process {
         .PARAMETER Module
             The module name whose manifest should be evaluated.
         .EXAMPLE
-            codepic . pack-module -Module sample
+            {CLI} . pack-module -Module sample
     #>
     task pack-module {
         if (-not $Module) {
@@ -761,7 +761,7 @@ process {
         .PARAMETER Module
             The module name whose archive should be extracted.
         .EXAMPLE
-            codepic . unpack-module -Module sample
+            {CLI} . unpack-module -Module sample
     #>
     task unpack-module {
         if (-not $Module) {
@@ -851,7 +851,7 @@ process {
         .PARAMETER Module
             The module name whose files should be removed from the workspace.
         .EXAMPLE
-            codepic . remove-module -Module sample
+            {CLI} . remove-module -Module sample
     #>
     task remove-module {
         if (-not $Module) {

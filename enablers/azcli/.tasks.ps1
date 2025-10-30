@@ -25,7 +25,7 @@ process {
         .DESCRIPTION
             Verifies that the `az` command is accessible. If it is missing, the task fails with remediation guidance so operators install Azure CLI before continuing.
         .EXAMPLE
-            codepic . install-enabler azcli
+            {CLI} . install-enabler azcli
         .LINK
             https://learn.microsoft.com/en-us/cli/azure/install-azure-cli
     #>
@@ -64,7 +64,7 @@ process {
         .DESCRIPTION
             Invokes `az upgrade --yes` when Azure CLI is present. Useful for keeping developer workstations aligned with minimum compatibility requirements declared in the manifest.
         .EXAMPLE
-            codepic . upgrade-enabler azcli
+            {CLI} . upgrade-enabler azcli
     #>
     task upgrade {
         if (!(Get-Command -Name az -ErrorAction Ignore)) {
@@ -83,7 +83,7 @@ process {
         .DESCRIPTION
             Azure CLI removal steps vary by platform. This task surfaces a hyperlink to official documentation and throws so automation can detect that manual intervention is required.
         .EXAMPLE
-            codepic . remove-enabler azcli
+            {CLI} . remove-enabler azcli
     #>
     task remove {
         Write-Build Cyan 'Follow the official instructions to remove Azure CLI: https://learn.microsoft.com/cli/azure/uninstall-azure-cli'

@@ -23,12 +23,12 @@
     "instructions": {
       "human": [
         "Install the Azure CLI following the official guidance: https://learn.microsoft.com/cli/azure/install-azure-cli",
-        "After installation, run `codepic . install-enabler azcli` to verify and register the tooling with the CLI."
+        "After installation, run `{CLI} . install-enabler azcli` to verify and register the tooling with the CLI."
       ],
       "copilot": [
         "Detect whether `az` is available by running `az version`.",
         "If the command fails, guide the user through the OS-specific install steps documented at https://learn.microsoft.com/cli/azure/install-azure-cli before proceeding.",
-        "Once the CLI is installed, run `codepic . install-enabler azcli` to ensure the enabler tasks complete successfully."
+        "Once the CLI is installed, run `{CLI} . install-enabler azcli` to ensure the enabler tasks complete successfully."
       ]
     }
   },

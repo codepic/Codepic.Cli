@@ -8,10 +8,10 @@
 .PARAMETER ProfilePath
     Optional override for the PowerShell profile file to update; defaults to the current user, all hosts profile.
 .EXAMPLE
-    Invoke-AliasSetup -Alias codepic
-    Adds the codepic alias to the default profile and reloads it in the current session.
+    Invoke-AliasSetup -Alias {CLI}
+    Adds the chosen alias to the default profile and reloads it in the current session.
 .EXAMPLE
-    Invoke-AliasSetup -Alias codepic -ProfilePath $PROFILE.CurrentUserCurrentHost
+    Invoke-AliasSetup -Alias {CLI} -ProfilePath $PROFILE.CurrentUserCurrentHost
     Updates only the current host's profile file with the alias definition.
 #>
 function Invoke-AliasSetup {
