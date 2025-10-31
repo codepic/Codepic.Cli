@@ -1,4 +1,4 @@
-# Codepic CLI
+# Codepic CLI [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/codepic/Codepic.Cli/badge)](https://scorecard.dev/viewer/?uri=github.com/codepic/Codepic.Cli)
 
 Codepic CLI bootstraps and manages modular automation workflows built on PowerShell tasks. It keeps conventions and tooling consistent so new modules remain drop-in for any workspace.
 

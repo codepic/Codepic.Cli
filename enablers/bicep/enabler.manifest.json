@@ -1,0 +1,39 @@
+{
+  "name": "bicep",
+  "kind": "enabler",
+  "version": "0.1.0",
+  "description": "Bicep CLI enabler that provides repository-scoped configuration for template authoring.",
+  "dependencies": {
+    "enablers": ["azcli"]
+  },
+  "workspace": {
+    "config": {
+      "vscode": {
+        "settings": {
+          "[bicep]": {
+            "editor.defaultFormatter": "ms-azuretools.vscode-bicep",
+            "editor.formatOnSave": true,
+            "files.trimTrailingWhitespace": true,
+            "files.insertFinalNewline": true
+          }
+        },
+        "extensions": {
+          "recommendations": [
+            "ms-azuretools.vscode-bicep",
+            "ps-rule.vscode-ps-rule"
+          ]
+        },
+        "launch": {
+          "version": "0.2.0",
+          "configurations": []
+        }
+      }
+    }
+  },
+  "include": [
+    "enablers/bicep/enabler.manifest.json",
+    "enablers/bicep/.tasks.ps1",
+    "bicepconfig.json",
+    "ps-rule.yaml"
+  ]
+}

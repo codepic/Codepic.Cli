@@ -50,3 +50,13 @@ Keeping this inventory current helps maintain transparency around optional depen
 - **Prerequisites**: PowerShell 7+, Git, and Azure CLI installed per [official docs](https://learn.microsoft.com/cli/azure/install-azure-cli).
 - **Testing guidance**: Run `{CLI} . install-enabler -Enabler azcli -Version <tag> -Git <repo>` followed by `{CLI} . upgrade-enabler -Enabler azcli -Version <tag>` to confirm lifecycle tasks succeed. Validate removal with `{CLI} . remove-enabler -Enabler azcli`.
 - **Binary lookup**: Command name `az`. Expected locations include `%ProgramFiles%\Microsoft SDKs\Azure\CLI2\wbin\az.cmd` (Windows), `/usr/bin/az` and `/usr/local/bin/az` (most Linux distros), and `/usr/local/bin/az` or `/opt/homebrew/bin/az` (macOS).
+
+### Bicep (`bicep`)
+
+- **Owning module**: Root module (enabler lifecycle tasks exposed via `{CLI} . install-enabler`, `upgrade-enabler`, `remove-enabler`).
+- **Purpose**: Ships repository-scoped `bicepconfig.json` so template authors share analyzer settings and authoring defaults.
+- **Dependencies**: Requires the `azcli` enabler; declared in the manifest under `dependencies.enablers` until a formal schema lands.
+- **Prerequisites**: Azure CLI installed and authenticated per the `azcli` enabler guidance; Bicep CLI provided by `az` (`az bicep upgrade`).
+- **Workspace config**: Ships language-scoped VS Code settings that format Bicep files on save and recommends the `ms-azuretools.vscode-bicep` and `ps-rule.vscode-ps-rule` extensions; exposes empty launch configuration scaffolding under `workspace.config.vscode` for future tasks.
+- **PSRule**: Provides a repository-level `ps-rule.yaml` that enables Bicep file expansion and loads `PSRule.Rules.Azure` for template linting consistency.
+- **Testing guidance**: Install `azcli`, run `{CLI} . install-enabler -Enabler bicep`, then execute `{CLI} . test-enabler -Enabler bicep` to confirm configuration files and CLI availability.

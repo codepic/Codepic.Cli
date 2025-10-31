@@ -1,0 +1,1342 @@
+{
+  "source": "https://raw.githubusercontent.com/mspnp/AzureNamingTool/refs/heads/main/src/repository/resourcetypes.json",
+  "retrieved": "2025-10-31",
+  "items": [
+    {
+      "resource": "AnalysisServices/servers",
+      "shortName": "as"
+    },
+    {
+      "resource": "ApiManagement/service",
+      "shortName": "apim"
+    },
+    {
+      "resource": "ApiManagement/service/apis",
+      "shortName": "apis"
+    },
+    {
+      "resource": "ApiManagement/service/apis/issues",
+      "shortName": "apii"
+    },
+    {
+      "resource": "ApiManagement/service/apis/issues/attachments",
+      "shortName": "apiia"
+    },
+    {
+      "resource": "ApiManagement/service/apis/issues/comments",
+      "shortName": "apiic"
+    },
+    {
+      "resource": "ApiManagement/service/apis/operations",
+      "shortName": "apio"
+    },
+    {
+      "resource": "ApiManagement/service/apis/operations/tags",
+      "shortName": "apiot"
+    },
+    {
+      "resource": "ApiManagement/service/apis/releases",
+      "shortName": "apir"
+    },
+    {
+      "resource": "ApiManagement/service/apis/schemas",
+      "shortName": "apis"
+    },
+    {
+      "resource": "ApiManagement/service/apis/tagDescriptions",
+      "shortName": "apitd"
+    },
+    {
+      "resource": "ApiManagement/service/apis/tags",
+      "shortName": "apitg"
+    },
+    {
+      "resource": "ApiManagement/service/api-version-sets",
+      "shortName": "apivs"
+    },
+    {
+      "resource": "ApiManagement/service/authorizationServers",
+      "shortName": "apias"
+    },
+    {
+      "resource": "ApiManagement/service/backends",
+      "shortName": "apib"
+    },
+    {
+      "resource": "ApiManagement/service/certificates",
+      "shortName": "apic"
+    },
+    {
+      "resource": "ApiManagement/service/diagnostics",
+      "shortName": "apid"
+    },
+    {
+      "resource": "ApiManagement/service/groups",
+      "shortName": "apig"
+    },
+    {
+      "resource": "ApiManagement/service/groups/users",
+      "shortName": "apigu"
+    },
+    {
+      "resource": "ApiManagement/service/identityProviders",
+      "shortName": "apiip"
+    },
+    {
+      "resource": "ApiManagement/service/loggers",
+      "shortName": "apil"
+    },
+    {
+      "resource": "ApiManagement/service/notifications",
+      "shortName": "apin"
+    },
+    {
+      "resource": "ApiManagement/service/notifications/recipientEmails",
+      "shortName": "recem"
+    },
+    {
+      "resource": "ApiManagement/service/openidConnectProviders",
+      "shortName": "apioi"
+    },
+    {
+      "resource": "ApiManagement/service/policies",
+      "shortName": "apipo"
+    },
+    {
+      "resource": "ApiManagement/service/products",
+      "shortName": "apipr"
+    },
+    {
+      "resource": "ApiManagement/service/products/apis",
+      "shortName": "api"
+    },
+    {
+      "resource": "ApiManagement/service/products/groups",
+      "shortName": "grp"
+    },
+    {
+      "resource": "ApiManagement/service/products/tags",
+      "shortName": "tag"
+    },
+    {
+      "resource": "ApiManagement/service/properties",
+      "shortName": "prop"
+    },
+    {
+      "resource": "ApiManagement/service/subscriptions",
+      "shortName": "subsr"
+    },
+    {
+      "resource": "ApiManagement/service/tags",
+      "shortName": "tag"
+    },
+    {
+      "resource": "ApiManagement/service/templates",
+      "shortName": "temp"
+    },
+    {
+      "resource": "ApiManagement/service/users",
+      "shortName": "user"
+    },
+    {
+      "resource": "AppConfiguration/configurationStores",
+      "shortName": "appcs"
+    },
+    {
+      "resource": "Authorization/locks",
+      "shortName": "lock"
+    },
+    {
+      "resource": "Authorization/policyAssignments",
+      "shortName": "pas"
+    },
+    {
+      "resource": "Authorization/policyAssignments",
+      "shortName": "pas"
+    },
+    {
+      "resource": "Authorization/policyAssignments",
+      "shortName": "pas"
+    },
+    {
+      "resource": "Authorization/policyDefinitions",
+      "shortName": "policy"
+    },
+    {
+      "resource": "Authorization/policyDefinitions",
+      "shortName": "policy"
+    },
+    {
+      "resource": "Authorization/policySetDefinitions",
+      "shortName": "init"
+    },
+    {
+      "resource": "Authorization/policySetDefinitions",
+      "shortName": "init"
+    },
+    {
+      "resource": "Authorization/policySetDefinitions",
+      "shortName": "init"
+    },
+    {
+      "resource": "Automation/automationAccounts",
+      "shortName": "aa"
+    },
+    {
+      "resource": "Automation/automationAccounts/certificates",
+      "shortName": "cert"
+    },
+    {
+      "resource": "Automation/automationAccounts/connections",
+      "shortName": "conn"
+    },
+    {
+      "resource": "Automation/automationAccounts/credentials",
+      "shortName": "cred"
+    },
+    {
+      "resource": "Automation/automationAccounts/runbooks",
+      "shortName": "runbk"
+    },
+    {
+      "resource": "Automation/automationAccounts/schedules",
+      "shortName": "sched"
+    },
+    {
+      "resource": "Automation/automationAccounts/variables",
+      "shortName": "var"
+    },
+    {
+      "resource": "Automation/automationAccounts/watchers",
+      "shortName": "watch"
+    },
+    {
+      "resource": "Automation/automationAccounts/webhooks",
+      "shortName": "wbhk"
+    },
+    {
+      "resource": "Batch/batchAccounts",
+      "shortName": "ba"
+    },
+    {
+      "resource": "Batch/batchAccounts/applications",
+      "shortName": "appl"
+    },
+    {
+      "resource": "Batch/batchAccounts/certificates",
+      "shortName": "cert"
+    },
+    {
+      "resource": "Batch/batchAccounts/pools",
+      "shortName": "pool"
+    },
+    {
+      "resource": "Blockchain/blockchainMembers",
+      "shortName": "blchm"
+    },
+    {
+      "resource": "Blueprint/blueprintAssignments",
+      "shortName": "bpas"
+    },
+    {
+      "resource": "Blueprint/blueprints",
+      "shortName": "bp"
+    },
+    {
+      "resource": "Blueprint/blueprints/artifacts",
+      "shortName": "bpa"
+    },
+    {
+      "resource": "Blueprint/blueprints/versions",
+      "shortName": "bpv"
+    },
+    {
+      "resource": "BotService/botServices",
+      "shortName": "botsvc"
+    },
+    {
+      "resource": "BotService/botServices/channels",
+      "shortName": "chan"
+    },
+    {
+      "resource": "BotService/botServices/Connections",
+      "shortName": "conn"
+    },
+    {
+      "resource": "BotService/enterpriseChannels",
+      "shortName": "botec"
+    },
+    {
+      "resource": "Cache/Redis",
+      "shortName": "redis"
+    },
+    {
+      "resource": "Cache/Redis/firewallRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "Cdn/profiles",
+      "shortName": "cdnp"
+    },
+    {
+      "resource": "Cdn/profiles/endpoints",
+      "shortName": "cdne"
+    },
+    {
+      "resource": "CertificateRegistration/certificateOrders",
+      "shortName": "cerco"
+    },
+    {
+      "resource": "CognitiveServices/accounts",
+      "shortName": "cog"
+    },
+    {
+      "resource": "Compute/availabilitySets",
+      "shortName": "avail"
+    },
+    {
+      "resource": "Compute/cloudServices",
+      "shortName": "cld"
+    },
+    {
+      "resource": "Compute/diskEncryptionSets",
+      "shortName": "des"
+    },
+    {
+      "resource": "Compute/disks",
+      "shortName": "osdisk"
+    },
+    {
+      "resource": "Compute/disks",
+      "shortName": "disk"
+    },
+    {
+      "resource": "Compute/galleries",
+      "shortName": "gal"
+    },
+    {
+      "resource": "Compute/galleries/applications",
+      "shortName": "app"
+    },
+    {
+      "resource": "Compute/galleries/applications/versions",
+      "shortName": "apver"
+    },
+    {
+      "resource": "Compute/galleries/images",
+      "shortName": "gimg"
+    },
+    {
+      "resource": "Compute/galleries/images/versions",
+      "shortName": "ver"
+    },
+    {
+      "resource": "Compute/images",
+      "shortName": "cimg"
+    },
+    {
+      "resource": "Compute/snapshots",
+      "shortName": "snap"
+    },
+    {
+      "resource": "Compute/virtualMachines",
+      "shortName": "vm"
+    },
+    {
+      "resource": "Compute/virtualMachines",
+      "shortName": "vm"
+    },
+    {
+      "resource": "Compute/virtualMachineScaleSets",
+      "shortName": "vmss"
+    },
+    {
+      "resource": "Compute/virtualMachineScaleSets",
+      "shortName": "vmss"
+    },
+    {
+      "resource": "ContainerInstance/containerGroups",
+      "shortName": "ci"
+    },
+    {
+      "resource": "ContainerRegistry/registries",
+      "shortName": "cr"
+    },
+    {
+      "resource": "ContainerRegistry/registries/buildTasks",
+      "shortName": "btsk"
+    },
+    {
+      "resource": "ContainerRegistry/registries/buildTasks/steps",
+      "shortName": "step"
+    },
+    {
+      "resource": "ContainerRegistry/registries/replications",
+      "shortName": "rep"
+    },
+    {
+      "resource": "ContainerRegistry/registries/scopeMaps",
+      "shortName": "scmap"
+    },
+    {
+      "resource": "ContainerRegistry/registries/tasks",
+      "shortName": "task"
+    },
+    {
+      "resource": "ContainerRegistry/registries/tokens",
+      "shortName": "tokn"
+    },
+    {
+      "resource": "ContainerRegistry/registries/webhooks",
+      "shortName": "webhk"
+    },
+    {
+      "resource": "ContainerService/managedClusters",
+      "shortName": "aks"
+    },
+    {
+      "resource": "ContainerServiceopenShiftManagedClusters",
+      "shortName": "osmc"
+    },
+    {
+      "resource": "CustomerInsights/hubs",
+      "shortName": "cihub"
+    },
+    {
+      "resource": "CustomerInsights/hubs/authorizationPolicies",
+      "shortName": "authp"
+    },
+    {
+      "resource": "CustomerInsights/hubs/connectors",
+      "shortName": "conn"
+    },
+    {
+      "resource": "CustomerInsights/hubs/connectors/mappings",
+      "shortName": "map"
+    },
+    {
+      "resource": "CustomerInsights/hubs/interactions",
+      "shortName": "int"
+    },
+    {
+      "resource": "CustomerInsights/hubs/kpi",
+      "shortName": "kpi"
+    },
+    {
+      "resource": "CustomerInsights/hubs/links",
+      "shortName": "link"
+    },
+    {
+      "resource": "CustomerInsights/hubs/predictions",
+      "shortName": "pred"
+    },
+    {
+      "resource": "CustomerInsights/hubs/profiles",
+      "shortName": "prof"
+    },
+    {
+      "resource": "CustomerInsights/hubs/relationshipLinks",
+      "shortName": "rlink"
+    },
+    {
+      "resource": "CustomerInsights/hubs/relationships",
+      "shortName": "rel"
+    },
+    {
+      "resource": "CustomerInsights/hubs/roleAssignments",
+      "shortName": "role"
+    },
+    {
+      "resource": "CustomerInsights/hubs/views",
+      "shortName": "view"
+    },
+    {
+      "resource": "CustomProviders/associations",
+      "shortName": "cpas"
+    },
+    {
+      "resource": "CustomProviders/resourceProviders",
+      "shortName": "cprep"
+    },
+    {
+      "resource": "DataBox/jobs",
+      "shortName": "dbjob"
+    },
+    {
+      "resource": "Databricks/workspaces",
+      "shortName": "dbw"
+    },
+    {
+      "resource": "DataFactory/factories",
+      "shortName": "adf"
+    },
+    {
+      "resource": "DataFactory/factories/dataflows",
+      "shortName": "flow"
+    },
+    {
+      "resource": "DataFactory/factories/datasets",
+      "shortName": "dset"
+    },
+    {
+      "resource": "DataFactory/factories/integrationRuntimes",
+      "shortName": "run"
+    },
+    {
+      "resource": "DataFactory/factories/linkedservices",
+      "shortName": "lksvc"
+    },
+    {
+      "resource": "DataFactory/factories/pipelines",
+      "shortName": "pipe"
+    },
+    {
+      "resource": "DataFactory/factories/triggers",
+      "shortName": "trig"
+    },
+    {
+      "resource": "DataFactory/factories/triggers/rerunTriggers",
+      "shortName": "rerun"
+    },
+    {
+      "resource": "DataLakeAnalytics/accounts",
+      "shortName": "dla"
+    },
+    {
+      "resource": "DataLakeAnalytics/accounts/computePolicies",
+      "shortName": "cmpol"
+    },
+    {
+      "resource": "DataLakeAnalytics/accounts/dataLakeStoreAccounts",
+      "shortName": "dlsta"
+    },
+    {
+      "resource": "DataLakeAnalytics/accounts/firewallRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "DataLakeAnalytics/accounts/storageAccounts",
+      "shortName": "dlasa"
+    },
+    {
+      "resource": "DataLakeStore/accounts",
+      "shortName": "dls"
+    },
+    {
+      "resource": "DataLakeStore/accounts/firewallRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "DataLakeStore/accounts/virtualNetworkRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "DataMigration/services",
+      "shortName": "dms"
+    },
+    {
+      "resource": "DataMigration/services/projects",
+      "shortName": "proj"
+    },
+    {
+      "resource": "DBforMariaDB/servers",
+      "shortName": "mdbsv"
+    },
+    {
+      "resource": "DBforMariaDB/servers/databases",
+      "shortName": "mdbdb"
+    },
+    {
+      "resource": "DBforMariaDB/servers/firewallRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "DBforMariaDB/servers/virtualNetworkRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "DBforMySQL/servers",
+      "shortName": "mysql"
+    },
+    {
+      "resource": "DBforMySQL/servers/databases",
+      "shortName": "db"
+    },
+    {
+      "resource": "DBforMySQL/servers/firewallRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "DBforMySQL/servers/virtualNetworkRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "DBforPostgreSQL/servers",
+      "shortName": "psql"
+    },
+    {
+      "resource": "DBforPostgreSQL/servers/databases",
+      "shortName": "db"
+    },
+    {
+      "resource": "DBforPostgreSQL/servers/firewallRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "DBforPostgreSQL/servers/virtualNetworkRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "Devices/IotHubs",
+      "shortName": "iot"
+    },
+    {
+      "resource": "Devices/IotHubs/certificates",
+      "shortName": "cert"
+    },
+    {
+      "resource": "Devices/IotHubs/eventHubEndpoints/ConsumerGroups",
+      "shortName": "congp"
+    },
+    {
+      "resource": "Devices/provisioningServices",
+      "shortName": "provs"
+    },
+    {
+      "resource": "Devices/provisioningServices/certificates",
+      "shortName": "pcert"
+    },
+    {
+      "resource": "DevTestLab/labs",
+      "shortName": "dtlab"
+    },
+    {
+      "resource": "DevTestLab/labs/customimages",
+      "shortName": "img"
+    },
+    {
+      "resource": "DevTestLab/labs/formulas",
+      "shortName": "form"
+    },
+    {
+      "resource": "DevTestLab/labs/virtualmachines",
+      "shortName": "vm"
+    },
+    {
+      "resource": "DevTestLab/labs/virtualmachines",
+      "shortName": "vm"
+    },
+    {
+      "resource": "DocumentDB/databaseAccounts",
+      "shortName": "dbact"
+    },
+    {
+      "resource": "DocumentDB/databaseAccounts/sqlDatabases",
+      "shortName": "cosmos"
+    },
+    {
+      "resource": "EventGrid/domains",
+      "shortName": "evgd"
+    },
+    {
+      "resource": "EventGrid/domains/topics",
+      "shortName": "evgt"
+    },
+    {
+      "resource": "EventGrid/eventSubscriptions",
+      "shortName": "evgs"
+    },
+    {
+      "resource": "EventGrid/topics",
+      "shortName": "egtp"
+    },
+    {
+      "resource": "EventHub/clusters",
+      "shortName": "evhcl"
+    },
+    {
+      "resource": "EventHub/namespaces",
+      "shortName": "evhns"
+    },
+    {
+      "resource": "EventHub/namespaces/AuthorizationRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "EventHub/namespaces/disasterRecoveryConfigs",
+      "shortName": "drcfg"
+    },
+    {
+      "resource": "EventHub/namespaces/eventhubs",
+      "shortName": "evh"
+    },
+    {
+      "resource": "EventHub/namespaces/eventhubs/authorizationRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "EventHub/namespaces/eventhubs/consumergroups",
+      "shortName": "cgrp"
+    },
+    {
+      "resource": "HDInsight/clusters",
+      "shortName": "mls"
+    },
+    {
+      "resource": "HDInsight/clusters",
+      "shortName": "spark"
+    },
+    {
+      "resource": "HDInsight/clusters",
+      "shortName": "storm"
+    },
+    {
+      "resource": "HDInsight/clusters",
+      "shortName": "hadoop"
+    },
+    {
+      "resource": "HDInsight/clusters",
+      "shortName": "hbase"
+    },
+    {
+      "resource": "HDInsight/clusters",
+      "shortName": "kafka"
+    },
+    {
+      "resource": "HybridCompute/machines",
+      "shortName": "arcs"
+    },
+    {
+      "resource": "ImportExport/jobs",
+      "shortName": "iejob"
+    },
+    {
+      "resource": "Insights/actionGroups",
+      "shortName": "ag"
+    },
+    {
+      "resource": "Insights/activityLogAlerts",
+      "shortName": "inala"
+    },
+    {
+      "resource": "Insights/components",
+      "shortName": "appi"
+    },
+    {
+      "resource": "Insights/metricAlerts",
+      "shortName": "inma"
+    },
+    {
+      "resource": "Insights/scheduledQueryRules",
+      "shortName": "insqr"
+    },
+    {
+      "resource": "IoTCentral/IoTApps",
+      "shortName": "iotapp"
+    },
+    {
+      "resource": "KeyVault/vaults",
+      "shortName": "kv"
+    },
+    {
+      "resource": "KeyVault/vaults/secrets",
+      "shortName": "kvs"
+    },
+    {
+      "resource": "Kubernetes/connectedClusters",
+      "shortName": "arck"
+    },
+    {
+      "resource": "Kusto/clusters",
+      "shortName": "dec"
+    },
+    {
+      "resource": "Kusto/clusters/databases",
+      "shortName": "dedb"
+    },
+    {
+      "resource": "Kusto/clusters/databases/dataConnections",
+      "shortName": "dcon"
+    },
+    {
+      "resource": "Kusto/clusters/databases/eventhubconnections",
+      "shortName": "ehcon"
+    },
+    {
+      "resource": "Logic/integrationAccounts",
+      "shortName": "ia"
+    },
+    {
+      "resource": "Logic/integrationAccounts/assemblies",
+      "shortName": "assem"
+    },
+    {
+      "resource": "Logic/integrationAccounts/batchConfigurations",
+      "shortName": "bconf"
+    },
+    {
+      "resource": "Logic/integrationAccounts/certificates",
+      "shortName": "cert"
+    },
+    {
+      "resource": "Logic/integrationAccounts/maps",
+      "shortName": "map"
+    },
+    {
+      "resource": "Logic/integrationAccounts/partners",
+      "shortName": "part"
+    },
+    {
+      "resource": "Logic/integrationAccounts/rosettanetprocessconfigurations",
+      "shortName": "rpcnf"
+    },
+    {
+      "resource": "Logic/integrationAccounts/schemas",
+      "shortName": "schem"
+    },
+    {
+      "resource": "Logic/integrationAccounts/sessions",
+      "shortName": "ses"
+    },
+    {
+      "resource": "Logic/integrationServiceEnvironments",
+      "shortName": "lise"
+    },
+    {
+      "resource": "Logic/integrationServiceEnvironments/managedApis",
+      "shortName": "mapi"
+    },
+    {
+      "resource": "Logic/workflows",
+      "shortName": "logic"
+    },
+    {
+      "resource": "MachineLearning/commitmentPlans",
+      "shortName": "mlcp"
+    },
+    {
+      "resource": "MachineLearning/webServices",
+      "shortName": "mlweb"
+    },
+    {
+      "resource": "MachineLearning/workspaces",
+      "shortName": "mlws"
+    },
+    {
+      "resource": "MachineLearningServices/workspaces",
+      "shortName": "mlw"
+    },
+    {
+      "resource": "MachineLearningServices/workspaces/computes",
+      "shortName": "mlswc"
+    },
+    {
+      "resource": "ManagedIdentity/userAssignedIdentities",
+      "shortName": "id"
+    },
+    {
+      "resource": "Management/managementGroups",
+      "shortName": "mg"
+    },
+    {
+      "resource": "Maps/accounts",
+      "shortName": "macc"
+    },
+    {
+      "resource": "Media/mediaservices",
+      "shortName": "mms"
+    },
+    {
+      "resource": "Media/mediaservices/liveEvents",
+      "shortName": "lievt"
+    },
+    {
+      "resource": "Media/mediaservices/liveEvents/liveOutputs",
+      "shortName": "liout"
+    },
+    {
+      "resource": "Media/mediaservices/streamingEndpoints",
+      "shortName": "strep"
+    },
+    {
+      "resource": "Migrate/assessmentProjects",
+      "shortName": "migr"
+    },
+    {
+      "resource": "Network/applicationGateways",
+      "shortName": "agw"
+    },
+    {
+      "resource": "Network/applicationSecurityGroups",
+      "shortName": "asg"
+    },
+    {
+      "resource": "Network/azureFirewalls",
+      "shortName": "afw"
+    },
+    {
+      "resource": "Network/bastionHosts",
+      "shortName": "bas"
+    },
+    {
+      "resource": "Network/connections",
+      "shortName": "con"
+    },
+    {
+      "resource": "Network/dnsZones",
+      "shortName": "dnsz"
+    },
+    {
+      "resource": "Network/expressRouteCircuits",
+      "shortName": "erc"
+    },
+    {
+      "resource": "Network/firewallPolicies",
+      "shortName": "waf"
+    },
+    {
+      "resource": "Network/firewallPolicies/ruleGroups",
+      "shortName": "wafrg"
+    },
+    {
+      "resource": "Network/frontDoors",
+      "shortName": "fd"
+    },
+    {
+      "resource": "Network/frontdoorWebApplicationFirewallPolicies",
+      "shortName": "fdfp"
+    },
+    {
+      "resource": "Network/loadBalancers",
+      "shortName": "lbi"
+    },
+    {
+      "resource": "Network/loadBalancers",
+      "shortName": "lbe"
+    },
+    {
+      "resource": "Network/loadBalancers/inboundNatRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "Network/localNetworkGateways",
+      "shortName": "lgw"
+    },
+    {
+      "resource": "Network/networkInterfaces",
+      "shortName": "nic"
+    },
+    {
+      "resource": "Network/networkSecurityGroups",
+      "shortName": "nsg"
+    },
+    {
+      "resource": "Network/networkSecurityGroups/securityRules",
+      "shortName": "nsgsr"
+    },
+    {
+      "resource": "Network/networkWatchers",
+      "shortName": "nw"
+    },
+    {
+      "resource": "Network/privateDnsZones",
+      "shortName": "pdnsz"
+    },
+    {
+      "resource": "Network/privateDnsZones/virtualNetworkLinks",
+      "shortName": "pdnsv"
+    },
+    {
+      "resource": "Network/privateLinkServices",
+      "shortName": "pl"
+    },
+    {
+      "resource": "Network/publicIPAddresses",
+      "shortName": "pip"
+    },
+    {
+      "resource": "Network/publicIPPrefixes",
+      "shortName": "ippre"
+    },
+    {
+      "resource": "Network/routeFilters",
+      "shortName": "rf"
+    },
+    {
+      "resource": "Network/routeFilters/routeFilterRules",
+      "shortName": "nrfrr"
+    },
+    {
+      "resource": "Network/routeTables",
+      "shortName": "rt"
+    },
+    {
+      "resource": "Network/routeTables/routes",
+      "shortName": "udr"
+    },
+    {
+      "resource": "Network/serviceEndpointPolicies",
+      "shortName": "se"
+    },
+    {
+      "resource": "Network/trafficManagerProfiles",
+      "shortName": "traf"
+    },
+    {
+      "resource": "Network/virtualNetworkGateways",
+      "shortName": "vgw"
+    },
+    {
+      "resource": "Network/virtualNetworks",
+      "shortName": "vnet"
+    },
+    {
+      "resource": "Network/virtualnetworks/subnets",
+      "shortName": "snet"
+    },
+    {
+      "resource": "Network/virtualNetworks/virtualNetworkPeerings",
+      "shortName": "peer"
+    },
+    {
+      "resource": "Network/virtualWans",
+      "shortName": "vwan"
+    },
+    {
+      "resource": "Network/vpnGateways",
+      "shortName": "vpng"
+    },
+    {
+      "resource": "Network/vpnGateways/vpnConnections",
+      "shortName": "vcn"
+    },
+    {
+      "resource": "Network/vpnSites",
+      "shortName": "vpn"
+    },
+    {
+      "resource": "NotificationHubs/namespaces",
+      "shortName": "ntfns"
+    },
+    {
+      "resource": "NotificationHubs/namespaces/AuthorizationRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "NotificationHubs/namespaces/notificationHubs",
+      "shortName": "ntf"
+    },
+    {
+      "resource": "NotificationHubs/namespaces/notificationHubs/AuthorizationRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "OperationalInsights/clusters",
+      "shortName": "opic"
+    },
+    {
+      "resource": "OperationalInsights/workspaces",
+      "shortName": "log"
+    },
+    {
+      "resource": "OperationsManagement/solutions",
+      "shortName": "opms"
+    },
+    {
+      "resource": "Portal/dashboards",
+      "shortName": "pdash"
+    },
+    {
+      "resource": "PowerBI/workspaceCollections",
+      "shortName": "pbiwc"
+    },
+    {
+      "resource": "PowerBIDedicated/capacities",
+      "shortName": "pbi"
+    },
+    {
+      "resource": "Purview/accounts",
+      "shortName": "pview"
+    },
+    {
+      "resource": "RecoveryServices/vaults",
+      "shortName": "rsv"
+    },
+    {
+      "resource": "RecoveryServices/vaults/backupPolicies",
+      "shortName": "rsvbp"
+    },
+    {
+      "resource": "Relay/namespaces",
+      "shortName": "rns"
+    },
+    {
+      "resource": "Relay/namespaces/AuthorizationRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "Relay/namespaces/HybridConnections",
+      "shortName": "hycon"
+    },
+    {
+      "resource": "Relay/namespaces/HybridConnections/authorizationRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "Relay/namespaces/WcfRelays",
+      "shortName": "wcfr"
+    },
+    {
+      "resource": "Relay/namespaces/WcfRelays/authorizationRules",
+      "shortName": "wcfra"
+    },
+    {
+      "resource": "Resources/deployments",
+      "shortName": "dploy"
+    },
+    {
+      "resource": "Resources/resourcegroups",
+      "shortName": "rg"
+    },
+    {
+      "resource": "Resources/tagNames",
+      "shortName": "rtn"
+    },
+    {
+      "resource": "Resources/tagNames/tagValues",
+      "shortName": "rtnv"
+    },
+    {
+      "resource": "Resources/templateSpecs",
+      "shortName": "tspec"
+    },
+    {
+      "resource": "Search/searchServices",
+      "shortName": "srch"
+    },
+    {
+      "resource": "ServiceBus/namespaces",
+      "shortName": "sb"
+    },
+    {
+      "resource": "ServiceBus/namespaces/AuthorizationRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "ServiceBus/namespaces/disasterRecoveryConfigs",
+      "shortName": "sbndc"
+    },
+    {
+      "resource": "ServiceBus/namespaces/migrationConfigurations",
+      "shortName": "migc"
+    },
+    {
+      "resource": "ServiceBus/namespaces/queues",
+      "shortName": "sbq"
+    },
+    {
+      "resource": "ServiceBus/namespaces/queues/authorizationRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "ServiceBus/namespaces/topics",
+      "shortName": "sbt"
+    },
+    {
+      "resource": "ServiceBus/namespaces/topics/authorizationRules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "ServiceBus/namespaces/topics/subscriptions",
+      "shortName": "tsub"
+    },
+    {
+      "resource": "ServiceBus/namespaces/topics/subscriptions/rules",
+      "shortName": "rule"
+    },
+    {
+      "resource": "ServiceFabric/clusters",
+      "shortName": "sf"
+    },
+    {
+      "resource": "SignalRService/signalR",
+      "shortName": "sigr"
+    },
+    {
+      "resource": "Sql/managedInstances",
+      "shortName": "sqlmi"
+    },
+    {
+      "resource": "Sql/servers",
+      "shortName": "sqldw"
+    },
+    {
+      "resource": "Sql/servers",
+      "shortName": "sql"
+    },
+    {
+      "resource": "Sql/servers/administrators",
+      "shortName": "sqlsa"
+    },
+    {
+      "resource": "Sql/servers/databases",
+      "shortName": "sqldb"
+    },
+    {
+      "resource": "Sql/servers/databases/syncGroups",
+      "shortName": "sqlsg"
+    },
+    {
+      "resource": "Sql/servers/elasticPools",
+      "shortName": "sqlep"
+    },
+    {
+      "resource": "Sql/servers/failoverGroups",
+      "shortName": "sqlfg"
+    },
+    {
+      "resource": "Sql/servers/firewallRules",
+      "shortName": "sqlfw"
+    },
+    {
+      "resource": "Storage/blob",
+      "shortName": "sbl"
+    },
+    {
+      "resource": "Storage/queue",
+      "shortName": "squ"
+    },
+    {
+      "resource": "Storage/storageAccounts",
+      "shortName": "stvm"
+    },
+    {
+      "resource": "Storage/storageAccounts",
+      "shortName": "st"
+    },
+    {
+      "resource": "Storage/storageAccounts/blobServices",
+      "shortName": "stbl"
+    },
+    {
+      "resource": "Storage/storageAccounts/blobServices/containers",
+      "shortName": "stblc"
+    },
+    {
+      "resource": "Storage/storageAccounts/fileServices",
+      "shortName": "stfs"
+    },
+    {
+      "resource": "Storage/storageAccounts/fileServices/shares",
+      "shortName": "stfss"
+    },
+    {
+      "resource": "Storage/storageAccounts/managementPolicies",
+      "shortName": "stmp"
+    },
+    {
+      "resource": "Storage/table",
+      "shortName": "sta"
+    },
+    {
+      "resource": "StorageSync/storageSyncServices",
+      "shortName": "sss"
+    },
+    {
+      "resource": "StorageSync/storageSyncServices/syncGroups",
+      "shortName": "sgrp"
+    },
+    {
+      "resource": "StorSimple/managers",
+      "shortName": "ssimp"
+    },
+    {
+      "resource": "StreamAnalytics/cluster",
+      "shortName": "asa"
+    },
+    {
+      "resource": "StreamAnalytics/streamingjobs",
+      "shortName": "sasj"
+    },
+    {
+      "resource": "StreamAnalytics/streamingjobs/functions",
+      "shortName": "sjf"
+    },
+    {
+      "resource": "StreamAnalytics/streamingjobs/inputs",
+      "shortName": "sjin"
+    },
+    {
+      "resource": "StreamAnalytics/streamingjobs/outputs",
+      "shortName": "sjout"
+    },
+    {
+      "resource": "StreamAnalytics/streamingjobs/transformations",
+      "shortName": "sjtrf"
+    },
+    {
+      "resource": "Subscription/subscriptions",
+      "shortName": "subcr"
+    },
+    {
+      "resource": "Synapse/workspaces",
+      "shortName": "synw"
+    },
+    {
+      "resource": "Synapse/workspaces/sqlPools",
+      "shortName": "synsp"
+    },
+    {
+      "resource": "Synapse/workspaces/sqlPools",
+      "shortName": "syndp"
+    },
+    {
+      "resource": "TimeSeriesInsights/environments",
+      "shortName": "tsi"
+    },
+    {
+      "resource": "TimeSeriesInsights/environments/accessPolicies",
+      "shortName": "tsiea"
+    },
+    {
+      "resource": "TimeSeriesInsights/environments/eventSources",
+      "shortName": "tsiee"
+    },
+    {
+      "resource": "TimeSeriesInsights/environments/referenceDataSets",
+      "shortName": "tsier"
+    },
+    {
+      "resource": "Web/certificates",
+      "shortName": "wbcer"
+    },
+    {
+      "resource": "Web/serverfarms",
+      "shortName": "asp"
+    },
+    {
+      "resource": "Web/sites",
+      "shortName": "stapp"
+    },
+    {
+      "resource": "Web/sites",
+      "shortName": "app"
+    },
+    {
+      "resource": "Web/sites",
+      "shortName": "func"
+    },
+    {
+      "resource": "Web/sites",
+      "shortName": "ase"
+    },
+    {
+      "resource": "Web/sites",
+      "shortName": "aswba"
+    },
+    {
+      "resource": "Web/sites/slots",
+      "shortName": "slot"
+    }
+  ]
+}

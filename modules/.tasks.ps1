@@ -485,117 +485,22 @@ process {
 
     <#
         .SYNOPSIS
-            Updates an installed enabler to the requested version.
+            Upgrades an installed enabler to a newer version.
         .DESCRIPTION
-            Clones the enabler's repository, replaces the installed files with the manifest's include paths, and executes the enabler upgrade task.
+            Invokes the enabler's own `upgrade` task so it can perform version-specific update logic.
         .PARAMETER Enabler
-            Name of the enabler to update.
-        .PARAMETER Version
-            Version tag to install from the repository.
+            Name of the enabler to upgrade within the workspace.
         .PARAMETER Git
-            Optional override for the repository URL when the manifest lacks source metadata.
+            Optional Git repository containing the enabler files. When omitted, the task assumes the enabler is already present under `./enablers/<name>/`.
         .EXAMPLE
-            {CLI} . upgrade-enabler -Enabler azcli -Version 0.1.1
+            {CLI} . upgrade-enabler -Enabler azcli
     #>
     task upgrade-enabler {
         if (-not $Enabler) {
             Write-Error "Specify -Enabler when invoking upgrade-enabler."
         }
 
-        if (-not $Version) {
-            Write-Error "Specify -Version when invoking upgrade-enabler."
-        }
-
-        $enablerRoot = Join-Path $PackEnablersRoot $Enabler
-        $manifestPath = Join-Path $enablerRoot 'enabler.manifest.json'
-
-        if (-not (Test-Path $manifestPath -PathType Leaf)) {
-            Write-Error "Enabler manifest not found at $manifestPath. Install the enabler before updating."
-        }
-
-        $installedManifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
-
-        $repositoryUrl = if ($Git) {
-            $Git
-        }
-        elseif ($installedManifest.source -and $installedManifest.source.git) {
-            $installedManifest.source.git
-        }
-        else {
-            Write-Error "Specify -Git or ensure manifest.source.git is defined for enabler '$Enabler' before running upgrade-enabler."
-        }
-
-        $tagPrefix = 'v'
-        if ($installedManifest.source -and $installedManifest.source.PSObject.Properties['tagPrefix']) {
-            $tagPrefix = $installedManifest.source.tagPrefix
-            if ($null -eq $tagPrefix) {
-                $tagPrefix = ''
-            }
-        }
-
-        $gitTag = if ([string]::IsNullOrWhiteSpace($tagPrefix)) { $Version } else { "$tagPrefix$Version" }
-
-        $tempRoot = New-TemporaryDirectory
-        $repoClonePath = Join-Path $tempRoot 'repo'
-
-        try {
-            exec {
-                git clone --quiet --depth 1 --branch $gitTag --single-branch $repositoryUrl $repoClonePath
-            } -Echo
-
-            $manifestCandidate = Get-ChildItem -Path $repoClonePath -Recurse -Filter 'enabler.manifest.json' -ErrorAction SilentlyContinue |
-            Where-Object {
-                try {
-                    $candidate = Get-Content -Raw -LiteralPath $_.FullName | ConvertFrom-Json
-                    ($candidate.name -and $candidate.name.ToString().ToLowerInvariant() -eq $Enabler.Value) -and `
-                    ($candidate.version -and $candidate.version.ToString() -eq $Version)
-                }
-                catch {
-                    $false
-                }
-            } |
-            Select-Object -First 1
-
-            if (-not $manifestCandidate) {
-                Write-Error "Unable to find an enabler.manifest.json matching name '$Enabler' and version '$Version' in $repositoryUrl."
-            }
-
-            $newManifest = Get-Content -Raw -LiteralPath $manifestCandidate.FullName | ConvertFrom-Json
-
-            foreach ($include in $installedManifest.include) {
-                $targetPath = Join-Path $PackRepoRoot $include
-                Remove-PathItem -LiteralPath $targetPath
-            }
-
-            if ((Test-Path $enablerRoot -PathType Container) -and -not (Get-ChildItem -LiteralPath $enablerRoot -Force)) {
-                Remove-Item -LiteralPath $enablerRoot -Force
-            }
-
-            foreach ($include in $newManifest.include) {
-                $sourcePath = Join-Path $repoClonePath $include
-                if (-not (Test-Path $sourcePath)) {
-                    Write-Error "Update archive missing expected path '$include'."
-                }
-
-                $destinationPath = Join-Path $PackRepoRoot $include
-                $destinationDir = Split-Path $destinationPath -Parent
-                if ($destinationDir) {
-                    Ensure-Directory -Path $destinationDir
-                }
-
-                Copy-Item -LiteralPath $sourcePath -Destination $destinationPath -Force -Recurse
-            }
-
-            $enablerTasksPath = Join-Path $PackRepoRoot "enablers/$Enabler/.tasks.ps1"
-            Invoke-EnablerTask -TaskPath $enablerTasksPath -TaskName 'upgrade'
-
-            Write-Build Green "Updated enabler '$Enabler' to version $Version from $repositoryUrl."
-        }
-        finally {
-            if (Test-Path $tempRoot -PathType Container) {
-                Remove-Item -LiteralPath $tempRoot -Recurse -Force
-            }
-        }
+        Invoke-Build upgrade -File ./enablers/$Enabler/.tasks.ps1 -Parameters @RestArgs
     }
 
     <#
@@ -642,6 +547,32 @@ process {
         }
 
         Write-Build Green "Removed enabler '$Enabler'."
+    }
+
+    <#
+        .SYNOPSIS
+            Executes the test routine for a named enabler.
+        .DESCRIPTION
+            Validates that the enabler task file exists and invokes its `test` task so the enabler can run self-checks or smoke tests.
+        .PARAMETER Enabler
+            Name of the enabler whose test routine should be executed.
+        .EXAMPLE
+            {CLI} . test-enabler -Enabler bicep
+    #>
+    task test-enabler {
+        if (-not $Enabler) {
+            Write-Error "Specify -Enabler when invoking test-enabler."
+        }
+
+        $enablerTasksPath = Join-Path $PackRepoRoot "enablers/$Enabler/.tasks.ps1"
+
+        if (-not (Test-Path $enablerTasksPath -PathType Leaf)) {
+            Write-Error "Enabler task file not found at $enablerTasksPath. Install the enabler before running its tests."
+        }
+
+        Invoke-EnablerTask -TaskPath $enablerTasksPath -TaskName 'test'
+
+        Write-Build Green "Ran test task for enabler '$Enabler'."
     }
 
     <#
